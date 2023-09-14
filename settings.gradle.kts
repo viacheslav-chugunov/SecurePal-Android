@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "SecurePal"
 include(":app")
- 
+include(":shared")
