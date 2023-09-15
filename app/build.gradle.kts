@@ -1,7 +1,19 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
+
+val privateProperties = Properties().apply {
+    try {
+        load(rootDir.resolve("private.properties").inputStream())
+    } catch (e: java.io.FileNotFoundException) {
+        Properties()
+    }
+}
+
+val encryptionToken: String = privateProperties.getProperty("encryptionToken", "0000000000000000")
 
 android {
     namespace = "viach.apps.securepal"
@@ -27,6 +39,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            buildConfigField("String", "ENCRYPTION_TOKEN", "\"${encryptionToken}\"")
+        }
+        debug {
+            buildConfigField("String", "ENCRYPTION_TOKEN", "\"${encryptionToken}\"")
         }
     }
     compileOptions {
@@ -38,6 +55,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
@@ -50,7 +68,6 @@ android {
 }
 
 dependencies {
-
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.7.2")
