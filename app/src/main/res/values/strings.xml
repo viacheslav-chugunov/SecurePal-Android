@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">SecurePal</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="settings">Settings</string>
+    <string name="auth">Auth</string>
+    <string name="notes">Notes</string>
+    <string name="cards">Cards</string>
+    <string name="you_dont_have_any_added_auth_records_yet">You don\'t have any added auth records yet</string>
+    <string name="you_dont_have_any_added_notes_yet">You don\'t have any added notes yet</string>
+    <string name="you_dont_have_any_added_cards_yet">You don\'t have any added cards yet</string>
+    <string name="add_auth_record">Add auth record</string>
+    <string name="add_note">Add note</string>
+    <string name="add_card">Add card</string>
 </resources>

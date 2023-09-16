@@ -17,3 +17,4 @@ rootProject.name = "SecurePal"
 include(":app")
 include(":shared")
 include(":feature:encryption")
+include(":feature:storage")

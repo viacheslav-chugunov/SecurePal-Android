@@ -1,10 +1,10 @@
 package viach.apps.encryption
 
-import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import viach.apps.encryption.repository.DefaultEncryptionRepository
 
 @RunWith(AndroidJUnit4::class)
 class DefaultEncryptionRepositoryTest {
@@ -37,7 +37,7 @@ class DefaultEncryptionRepositoryTest {
         val message = "A message to encrypt"
         val encrypted1 = repository1.encrypt(message)
         val encrypted2 = repository2.encrypt(message)
-        Assert.assertNotEquals(encrypted1.contentToString(), encrypted2.contentToString())
+        Assert.assertNotEquals(encrypted1, encrypted2)
     }
 
     @Test
@@ -47,7 +47,7 @@ class DefaultEncryptionRepositoryTest {
         val message = "A message to encrypt"
         val encrypted1 = repository1.encrypt(message)
         val encrypted2 = repository2.encrypt(message)
-        Assert.assertEquals(encrypted1.contentToString(), encrypted2.contentToString())
+        Assert.assertEquals(encrypted1, encrypted2)
     }
 
     @Test(expected = IllegalEncryptionTokenException::class)
