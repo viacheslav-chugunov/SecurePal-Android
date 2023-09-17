@@ -11,4 +11,9 @@
     <string name="add_auth_record">Add auth record</string>
     <string name="add_note">Add note</string>
     <string name="add_card">Add card</string>
+    <string name="back">Back</string>
+    <string name="title">Title</string>
+    <string name="password">Password</string>
+    <string name="note">Note</string>
+    <string name="login_email_etc">Login, email etc.</string>
 </resources>

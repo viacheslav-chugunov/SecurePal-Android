@@ -114,7 +114,8 @@ fun MainScreen() {
                         val viewModel = hiltViewModel<AuthRecordViewModel>()
                         AuthRecordScreen(
                             state = viewModel.stateFlow.collectAsState().value,
-                            onAction = viewModel::handle
+                            onAction = viewModel::handle,
+                            navigateBack = navController::popBackStack
                         )
                     }
                     composable(Screen.Route.NOTE_RECORD) {

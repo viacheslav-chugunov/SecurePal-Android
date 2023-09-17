@@ -17,7 +17,13 @@ class AuthRecordViewModel @Inject constructor(
     fun handle(action: AuthRecordAction) {
         when (action) {
             is AuthRecordAction.SaveAuthRecord -> {
-                saveAuthRecord(action.authRecord)
+                saveAuthRecord(state.authRecord)
+            }
+            is AuthRecordAction.UpdateAuthRecord -> {
+                state = state.copy(authRecord = action.authRecord)
+            }
+            is AuthRecordAction.ShowPassword -> {
+                state = state.copy(showPassword = action.show)
             }
         }
     }
@@ -25,8 +31,7 @@ class AuthRecordViewModel @Inject constructor(
     private fun saveAuthRecord(authRecord: AuthRecord) {
         viewModelScope.launch(Dispatchers.IO) {
             authRecordRepository.addRecord(authRecord)
+            state = state.copy(closeScreen = true)
         }
     }
-
-
 }

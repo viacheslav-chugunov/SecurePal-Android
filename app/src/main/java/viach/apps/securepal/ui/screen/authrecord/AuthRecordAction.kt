@@ -1,7 +1,9 @@
 package viach.apps.securepal.ui.screen.authrecord
 
-import viach.apps.storage.model.AuthRecord
+import viach.apps.securepal.model.AuthRecordUI
 
 sealed interface AuthRecordAction {
-    class SaveAuthRecord(val authRecord: AuthRecord): AuthRecordAction
+    object SaveAuthRecord : AuthRecordAction
+    class UpdateAuthRecord(val authRecord: AuthRecordUI) : AuthRecordAction
+    class ShowPassword(val show: Boolean) : AuthRecordAction
 }
