@@ -1,8 +1,6 @@
 package viach.apps.securepal.ui.view
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -19,12 +17,13 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AuthRecordTextField(
+fun RecordTextField(
     value: String,
     onValueChanged: (String) -> Unit,
     @StringRes labelRes: Int,
     modifier: Modifier,
-    passwordMask: Boolean = false
+    passwordMask: Boolean = false,
+    multiline: Boolean = false
 ) {
     TextField(
         value = value,
@@ -42,7 +41,7 @@ fun AuthRecordTextField(
             Text(text = stringResource(id = labelRes))
         },
         shape = CutCornerShape(8.dp),
-        singleLine = true,
+        singleLine = !multiline,
         visualTransformation = if (passwordMask) PasswordVisualTransformation() else VisualTransformation.None
     )
 }

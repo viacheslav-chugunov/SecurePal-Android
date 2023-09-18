@@ -1,7 +1,6 @@
 package viach.apps.securepal.ui.screen.authrecord
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,30 +8,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import viach.apps.securepal.R
-import viach.apps.securepal.ui.view.AuthRecordTextField
+import viach.apps.securepal.ui.view.RecordTextField
+import viach.apps.securepal.ui.view.RecordTopBar
 
 @Composable
 fun AuthRecordScreen(
@@ -48,35 +38,14 @@ fun AuthRecordScreen(
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+        modifier = Modifier.fillMaxSize()
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .clickable { navigateBack() }
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_two_arrows_back),
-                    contentDescription = null
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(text = stringResource(id = R.string.back))
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            FloatingActionButton(onClick = { onAction(AuthRecordAction.SaveAuthRecord) }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_done),
-                    contentDescription = null
-                )
-            }
-        }
+        RecordTopBar(
+            doneContainerColor = MaterialTheme.colorScheme.primary,
+            doneContentColor = MaterialTheme.colorScheme.onPrimary,
+            onNavigateBack = navigateBack,
+            onDone = { onAction(AuthRecordAction.SaveAuthRecord) }
+        )
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -84,10 +53,10 @@ fun AuthRecordScreen(
                 .background(
                     color = MaterialTheme.colorScheme.primaryContainer,
                     shape = CutCornerShape(16.dp)
-                )
+                ).verticalScroll(rememberScrollState())
         ) {
             Spacer(modifier = Modifier.height(16.dp))
-            AuthRecordTextField(
+            RecordTextField(
                 value = state.authRecord.title,
                 onValueChanged = {
                     onAction(AuthRecordAction.UpdateAuthRecord(state.authRecord.copy(title = it)))
@@ -98,7 +67,7 @@ fun AuthRecordScreen(
                     .padding(horizontal = 16.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
-            AuthRecordTextField(
+            RecordTextField(
                 value = state.authRecord.auth,
                 onValueChanged = {
                     onAction(AuthRecordAction.UpdateAuthRecord(state.authRecord.copy(auth = it)))
@@ -112,7 +81,7 @@ fun AuthRecordScreen(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                AuthRecordTextField(
+                RecordTextField(
                     value = state.authRecord.password,
                     onValueChanged = {
                         onAction(AuthRecordAction.UpdateAuthRecord(state.authRecord.copy(password = it)))
@@ -135,7 +104,7 @@ fun AuthRecordScreen(
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            AuthRecordTextField(
+            RecordTextField(
                 value = state.authRecord.note,
                 onValueChanged = {
                     onAction(AuthRecordAction.UpdateAuthRecord(state.authRecord.copy(note = it)))

@@ -30,6 +30,7 @@ import viach.apps.securepal.ui.screen.cardrecord.CardRecordScreen
 import viach.apps.securepal.ui.screen.dashboard.DashboardScreen
 import viach.apps.securepal.ui.screen.dashboard.DashboardViewModel
 import viach.apps.securepal.ui.screen.noterecord.NoteRecordScreen
+import viach.apps.securepal.ui.screen.noterecord.NoteRecordViewModel
 import viach.apps.securepal.ui.screen.settings.SettingsScreen
 import viach.apps.securepal.ui.theme.SecurePalTheme
 
@@ -119,7 +120,12 @@ fun MainScreen() {
                         )
                     }
                     composable(Screen.Route.NOTE_RECORD) {
-                        NoteRecordScreen()
+                        val viewModel = hiltViewModel<NoteRecordViewModel>()
+                        NoteRecordScreen(
+                            state = viewModel.stateFlow.collectAsState().value,
+                            onAction = viewModel::handle,
+                            navigateBack = navController::popBackStack
+                        )
                     }
                     composable(Screen.Route.CARD_RECORD) {
                         CardRecordScreen()
