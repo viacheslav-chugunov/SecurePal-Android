@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import viach.apps.securepal.R
 import viach.apps.securepal.StateViewModel
 import viach.apps.storage.model.AuthRecord
 import viach.apps.storage.repository.AuthRecordRepository
@@ -18,9 +19,9 @@ class AuthRecordViewModel @Inject constructor(
         when (action) {
             is AuthRecordAction.SaveAuthRecord -> {
                 if (state.authRecord.title.isBlank()) {
-                    state = state.copy(titleError = true)
+                    state = state.copy(titleError = true, errorMessageRes = R.string.title_required)
                 } else if (state.authRecord.auth.isBlank()) {
-                    state = state.copy(authError = true)
+                    state = state.copy(authError = true, errorMessageRes = R.string.auth_required)
                 } else {
                     viewModelScope.launch(Dispatchers.IO) {
                         authRecordRepository.addRecord(state.authRecord)
@@ -29,7 +30,12 @@ class AuthRecordViewModel @Inject constructor(
                 }
             }
             is AuthRecordAction.UpdateAuthRecord -> {
-                state = state.copy(authRecord = action.authRecord, authError = false, titleError = false)
+                state = state.copy(
+                    authRecord = action.authRecord,
+                    authError = false,
+                    titleError = false,
+                    errorMessageRes = 0
+                )
             }
             is AuthRecordAction.ShowPassword -> {
                 state = state.copy(showPassword = action.show)

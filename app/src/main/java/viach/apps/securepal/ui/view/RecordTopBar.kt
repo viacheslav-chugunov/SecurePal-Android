@@ -11,13 +11,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import viach.apps.securepal.R
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun RecordTopBar(
     doneContainerColor: Color,
@@ -25,6 +28,8 @@ fun RecordTopBar(
     onNavigateBack: () -> Unit,
     onDone: () -> Unit
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(16.dp)
@@ -47,7 +52,10 @@ fun RecordTopBar(
         }
         Spacer(modifier = Modifier.weight(1f))
         FloatingActionButton(
-            onClick = onDone,
+            onClick = {
+                keyboardController?.hide()
+                onDone()
+            },
             containerColor = doneContainerColor,
             contentColor = doneContentColor
         ) {

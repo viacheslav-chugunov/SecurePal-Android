@@ -21,4 +21,7 @@
     <string name="verification_number">Verification number</string>
     <string name="pin">Pin</string>
     <string name="expiration_date">Expiration date</string>
+    <string name="title_required">Title required</string>
+    <string name="auth_required">Auth required</string>
+    <string name="card_number_required">Card number required</string>
 </resources>

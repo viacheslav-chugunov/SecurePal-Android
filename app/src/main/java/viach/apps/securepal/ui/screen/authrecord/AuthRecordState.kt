@@ -7,5 +7,6 @@ data class AuthRecordState(
     val showPassword: Boolean = false,
     val closeScreen: Boolean = false,
     val titleError: Boolean = false,
-    val authError: Boolean = false
+    val authError: Boolean = false,
+    val errorMessageRes: Int = 0
 )

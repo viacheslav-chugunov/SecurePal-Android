@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import viach.apps.securepal.R
 import viach.apps.securepal.StateViewModel
 import viach.apps.storage.repository.NoteRecordRepository
 import javax.inject.Inject
@@ -17,7 +18,7 @@ class NoteRecordViewModel @Inject constructor(
         when (action) {
             NoteRecordAction.SaveNoteRecord -> {
                 if (state.noteRecord.title.isBlank()) {
-                    state = state.copy(titleError = true)
+                    state = state.copy(titleError = true, errorMessageRes = R.string.title_required)
                 } else {
                     viewModelScope.launch(Dispatchers.IO) {
                         noteRecordRepository.addRecord(state.noteRecord)
@@ -26,7 +27,11 @@ class NoteRecordViewModel @Inject constructor(
                 }
             }
             is NoteRecordAction.UpdateNoteRecord -> {
-                state = state.copy(noteRecord = action.noteRecord, titleError = false)
+                state = state.copy(
+                    noteRecord = action.noteRecord,
+                    titleError = false,
+                    errorMessageRes = 0
+                )
             }
         }
     }

@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import viach.apps.securepal.R
 import viach.apps.securepal.ui.view.RecordTextField
@@ -23,12 +24,20 @@ import viach.apps.securepal.ui.view.RecordTopBar
 fun NoteRecordScreen(
     state: NoteRecordState,
     onAction: (NoteRecordAction) -> Unit,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    showError: (String) -> Unit
 ) {
+    val context = LocalContext.current
 
     LaunchedEffect(state.closeScreen) {
         if (state.closeScreen) {
             navigateBack()
+        }
+    }
+
+    LaunchedEffect(state.errorMessageRes) {
+        if (state.errorMessageRes != 0) {
+            showError(context.getString(state.errorMessageRes))
         }
     }
 
@@ -48,7 +57,8 @@ fun NoteRecordScreen(
                 .background(
                     color = MaterialTheme.colorScheme.secondaryContainer,
                     shape = CutCornerShape(16.dp)
-                ).verticalScroll(rememberScrollState())
+                )
+                .verticalScroll(rememberScrollState())
         ) {
             Spacer(modifier = Modifier.height(16.dp))
             RecordTextField(

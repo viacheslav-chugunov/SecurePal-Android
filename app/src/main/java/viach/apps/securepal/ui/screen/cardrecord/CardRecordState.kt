@@ -8,5 +8,6 @@ data class CardRecordState(
     val showCheck: Boolean = false,
     val showPin: Boolean = false,
     val titleError: Boolean = false,
-    val numberError: Boolean = false
+    val numberError: Boolean = false,
+    val errorMessageRes: Int = 0
 )

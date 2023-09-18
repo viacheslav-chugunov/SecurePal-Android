@@ -1,6 +1,7 @@
 package viach.apps.securepal.ui.screen.main
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -9,6 +10,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,9 +43,22 @@ import viach.apps.securepal.ui.theme.SecurePalTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
+    val mainViewModel = hiltViewModel<MainViewModel>()
+    val state = mainViewModel.stateFlow.collectAsState().value
     val navController = rememberNavController()
+    val snackbarHostState = SnackbarHostState()
     val currentRoute = navController.currentBackStackEntryFlow.collectAsState(initial = null)
         .value?.destination?.route ?: ""
+
+    LaunchedEffect(state.snackbarErrorMessage) {
+        if (state.snackbarErrorMessage.isNotEmpty()) {
+            snackbarHostState.showSnackbar(
+                message = state.snackbarErrorMessage,
+                duration = SnackbarDuration.Short
+            )
+            mainViewModel.handle(MainAction.HandleSnackbarMessage)
+        }
+    }
 
     SecurePalTheme {
         Scaffold(
@@ -89,6 +107,16 @@ fun MainScreen() {
                         }
                     )
                 }
+            },
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState) {
+                    Snackbar(
+                        snackbarData = it,
+                        modifier = Modifier.fillMaxWidth(),
+                        containerColor = MaterialTheme.colorScheme.errorContainer,
+                        contentColor = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                }
             }
         ) { padding ->
             Surface(
@@ -117,7 +145,8 @@ fun MainScreen() {
                         AuthRecordScreen(
                             state = viewModel.stateFlow.collectAsState().value,
                             onAction = viewModel::handle,
-                            navigateBack = navController::popBackStack
+                            navigateBack = navController::popBackStack,
+                            showError = { mainViewModel.handle(MainAction.ShowSnackbarError(it)) }
                         )
                     }
                     composable(Screen.Route.NOTE_RECORD) {
@@ -125,7 +154,8 @@ fun MainScreen() {
                         NoteRecordScreen(
                             state = viewModel.stateFlow.collectAsState().value,
                             onAction = viewModel::handle,
-                            navigateBack = navController::popBackStack
+                            navigateBack = navController::popBackStack,
+                            showError = { mainViewModel.handle(MainAction.ShowSnackbarError(it)) }
                         )
                     }
                     composable(Screen.Route.CARD_RECORD) {
@@ -133,7 +163,8 @@ fun MainScreen() {
                         CardRecordScreen(
                             state = viewModel.stateFlow.collectAsState().value,
                             onAction = viewModel::handle,
-                            navigateBack = navController::popBackStack
+                            navigateBack = navController::popBackStack,
+                            showError = { mainViewModel.handle(MainAction.ShowSnackbarError(it)) }
                         )
                     }
                     composable(Screen.Route.SHOW_AUTH_RECORD) {
