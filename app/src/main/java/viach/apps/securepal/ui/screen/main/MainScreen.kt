@@ -38,6 +38,8 @@ import viach.apps.securepal.ui.screen.dashboard.DashboardViewModel
 import viach.apps.securepal.ui.screen.noterecord.NoteRecordScreen
 import viach.apps.securepal.ui.screen.noterecord.NoteRecordViewModel
 import viach.apps.securepal.ui.screen.settings.SettingsScreen
+import viach.apps.securepal.ui.screen.showauthrecord.ShowAuthRecordScreen
+import viach.apps.securepal.ui.screen.showauthrecord.ShowAuthRecordViewModel
 import viach.apps.securepal.ui.theme.SecurePalTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -168,7 +170,13 @@ fun MainScreen() {
                         )
                     }
                     composable(Screen.Route.SHOW_AUTH_RECORD) {
-
+                        val viewModel = hiltViewModel<ShowAuthRecordViewModel>()
+                        ShowAuthRecordScreen(
+                            state = viewModel.stateFlow.collectAsState().value,
+                            onAction = viewModel::handle,
+                            openScreen = navController::navigate,
+                            navigateBack = navController::popBackStack
+                        )
                     }
                     composable(Screen.Route.SHOW_NOTE_RECORD) {
 
