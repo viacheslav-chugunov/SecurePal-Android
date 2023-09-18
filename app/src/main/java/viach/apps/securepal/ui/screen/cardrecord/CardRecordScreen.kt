@@ -59,7 +59,8 @@ fun CardRecordScreen(
                 labelRes = R.string.title,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 16.dp),
+                error = state.titleError
             )
             Spacer(modifier = Modifier.height(16.dp))
             RecordTextField(
@@ -77,7 +78,8 @@ fun CardRecordScreen(
                 labelRes = R.string.card_number,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 16.dp),
+                error = state.numberError
             )
             Spacer(modifier = Modifier.height(16.dp))
             RecordTextField(

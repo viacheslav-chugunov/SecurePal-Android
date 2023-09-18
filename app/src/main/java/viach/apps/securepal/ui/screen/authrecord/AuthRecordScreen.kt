@@ -67,7 +67,8 @@ fun AuthRecordScreen(
                 labelRes = R.string.title,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 16.dp),
+                error = state.titleError
             )
             Spacer(modifier = Modifier.height(16.dp))
             RecordTextField(
@@ -78,7 +79,8 @@ fun AuthRecordScreen(
                 labelRes = R.string.login_email_etc,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 16.dp),
+                error = state.authError
             )
             Spacer(modifier = Modifier.height(16.dp))
             HiddenRecordTextField(

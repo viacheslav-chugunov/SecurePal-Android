@@ -124,11 +124,11 @@ fun DashboardScreen(
                             buttonColors = emptyMessageButtonColors,
                             onButtonClick = { onAction(DashboardAction.OpenScreen(Screen.NewNoteRecord)) }
                         )
-                        items(state.noteRecords) { noteRecorod ->
+                        items(state.noteRecords) { noteRecord ->
                             ShortRecord(
-                                title = noteRecorod.title,
-                                description = noteRecorod.note,
-                                onClick = { onAction(DashboardAction.OpenScreen(Screen.ShowNoteRecord(noteRecorod))) }
+                                title = noteRecord.title,
+                                description = "",
+                                onClick = { onAction(DashboardAction.OpenScreen(Screen.ShowNoteRecord(noteRecord))) }
                             )
                         }
                     }

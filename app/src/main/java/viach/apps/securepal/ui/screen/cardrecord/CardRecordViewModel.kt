@@ -16,9 +16,15 @@ class CardRecordViewModel @Inject constructor(
     fun handle(action: CardRecordAction) {
         when (action) {
             CardRecordAction.SaveCardRecord -> {
-                viewModelScope.launch(Dispatchers.IO) {
-                    cardRecordRepository.addRecord(state.cardRecord)
-                    state = state.copy(closeScreen = true)
+                if (state.cardRecord.title.isBlank()) {
+                    state = state.copy(titleError = true)
+                } else if (state.cardRecord.number.isBlank()) {
+                    state = state.copy(numberError = true)
+                } else {
+                    viewModelScope.launch(Dispatchers.IO) {
+                        cardRecordRepository.addRecord(state.cardRecord)
+                        state = state.copy(closeScreen = true)
+                    }
                 }
             }
             is CardRecordAction.ShowCheck -> {
@@ -28,7 +34,7 @@ class CardRecordViewModel @Inject constructor(
                 state = state.copy(showPin = action.show)
             }
             is CardRecordAction.UpdateCardRecord -> {
-                state = state.copy(cardRecord = action.cardRecord)
+                state = state.copy(cardRecord = action.cardRecord, titleError = false, numberError = false)
             }
         }
     }

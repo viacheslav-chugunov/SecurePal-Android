@@ -16,13 +16,17 @@ class NoteRecordViewModel @Inject constructor(
     fun handle(action: NoteRecordAction) {
         when (action) {
             NoteRecordAction.SaveNoteRecord -> {
-                viewModelScope.launch(Dispatchers.IO) {
-                    noteRecordRepository.addRecord(state.noteRecord)
-                    state = state.copy(closeScreen = true)
+                if (state.noteRecord.title.isBlank()) {
+                    state = state.copy(titleError = true)
+                } else {
+                    viewModelScope.launch(Dispatchers.IO) {
+                        noteRecordRepository.addRecord(state.noteRecord)
+                        state = state.copy(closeScreen = true)
+                    }
                 }
             }
             is NoteRecordAction.UpdateNoteRecord -> {
-                state = state.copy(noteRecord = action.noteRecord)
+                state = state.copy(noteRecord = action.noteRecord, titleError = false)
             }
         }
     }

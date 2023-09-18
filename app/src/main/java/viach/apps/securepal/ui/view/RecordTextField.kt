@@ -23,7 +23,8 @@ fun RecordTextField(
     @StringRes labelRes: Int,
     modifier: Modifier,
     passwordMask: Boolean = false,
-    multiline: Boolean = false
+    multiline: Boolean = false,
+    error: Boolean = false
 ) {
     TextField(
         value = value,
@@ -35,13 +36,15 @@ fun RecordTextField(
             unfocusedIndicatorColor = Color.Transparent,
             textColor = MaterialTheme.colorScheme.onBackground,
             focusedLabelColor = MaterialTheme.colorScheme.onBackground,
-            unfocusedLabelColor = MaterialTheme.colorScheme.onBackground
+            unfocusedLabelColor = MaterialTheme.colorScheme.onBackground,
+            errorIndicatorColor = Color.Transparent
         ),
         label = {
             Text(text = stringResource(id = labelRes))
         },
         shape = CutCornerShape(8.dp),
         singleLine = !multiline,
-        visualTransformation = if (passwordMask) PasswordVisualTransformation() else VisualTransformation.None
+        visualTransformation = if (passwordMask) PasswordVisualTransformation() else VisualTransformation.None,
+        isError = error
     )
 }

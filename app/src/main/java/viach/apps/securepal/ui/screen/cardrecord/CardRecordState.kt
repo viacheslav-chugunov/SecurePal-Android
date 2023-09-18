@@ -6,5 +6,7 @@ data class CardRecordState(
     val cardRecord: CardRecordUI = CardRecordUI(),
     val closeScreen: Boolean = false,
     val showCheck: Boolean = false,
-    val showPin: Boolean = false
+    val showPin: Boolean = false,
+    val titleError: Boolean = false,
+    val numberError: Boolean = false
 )

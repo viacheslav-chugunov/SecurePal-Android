@@ -17,21 +17,23 @@ class AuthRecordViewModel @Inject constructor(
     fun handle(action: AuthRecordAction) {
         when (action) {
             is AuthRecordAction.SaveAuthRecord -> {
-                saveAuthRecord(state.authRecord)
+                if (state.authRecord.title.isBlank()) {
+                    state = state.copy(titleError = true)
+                } else if (state.authRecord.auth.isBlank()) {
+                    state = state.copy(authError = true)
+                } else {
+                    viewModelScope.launch(Dispatchers.IO) {
+                        authRecordRepository.addRecord(state.authRecord)
+                        state = state.copy(closeScreen = true)
+                    }
+                }
             }
             is AuthRecordAction.UpdateAuthRecord -> {
-                state = state.copy(authRecord = action.authRecord)
+                state = state.copy(authRecord = action.authRecord, authError = false, titleError = false)
             }
             is AuthRecordAction.ShowPassword -> {
                 state = state.copy(showPassword = action.show)
             }
-        }
-    }
-
-    private fun saveAuthRecord(authRecord: AuthRecord) {
-        viewModelScope.launch(Dispatchers.IO) {
-            authRecordRepository.addRecord(authRecord)
-            state = state.copy(closeScreen = true)
         }
     }
 }

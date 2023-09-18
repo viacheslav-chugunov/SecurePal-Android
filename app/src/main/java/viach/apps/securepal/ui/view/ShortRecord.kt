@@ -28,7 +28,11 @@ fun ShortRecord(
     description: String,
     onClick: () -> Unit
 ) {
-    val circleText = if (title.length == 1) title.substring(0, 1) else title.substring(0, 2)
+    val circleText = when (title.length) {
+        0 -> ""
+        1 -> title.substring(0, 1)
+        else -> title.substring(0, 2)
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
