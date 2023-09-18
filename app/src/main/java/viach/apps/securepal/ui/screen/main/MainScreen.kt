@@ -27,6 +27,7 @@ import viach.apps.securepal.extension.navigate
 import viach.apps.securepal.ui.screen.authrecord.AuthRecordScreen
 import viach.apps.securepal.ui.screen.authrecord.AuthRecordViewModel
 import viach.apps.securepal.ui.screen.cardrecord.CardRecordScreen
+import viach.apps.securepal.ui.screen.cardrecord.CardRecordViewModel
 import viach.apps.securepal.ui.screen.dashboard.DashboardScreen
 import viach.apps.securepal.ui.screen.dashboard.DashboardViewModel
 import viach.apps.securepal.ui.screen.noterecord.NoteRecordScreen
@@ -128,7 +129,12 @@ fun MainScreen() {
                         )
                     }
                     composable(Screen.Route.CARD_RECORD) {
-                        CardRecordScreen()
+                        val viewModel = hiltViewModel<CardRecordViewModel>()
+                        CardRecordScreen(
+                            state = viewModel.stateFlow.collectAsState().value,
+                            onAction = viewModel::handle,
+                            navigateBack = navController::popBackStack
+                        )
                     }
                     composable(Screen.Route.SHOW_AUTH_RECORD) {
 

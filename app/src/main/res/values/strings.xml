@@ -16,4 +16,9 @@
     <string name="password">Password</string>
     <string name="note">Note</string>
     <string name="login_email_etc">Login, email etc.</string>
+    <string name="owner">Owner</string>
+    <string name="card_number">Card number</string>
+    <string name="verification_number">Verification number</string>
+    <string name="pin">Pin</string>
+    <string name="expiration_date">Expiration date</string>
 </resources>

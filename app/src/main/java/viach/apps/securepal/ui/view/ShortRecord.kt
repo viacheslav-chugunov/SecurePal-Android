@@ -68,13 +68,17 @@ fun ShortRecord(
             ) {
                 Text(
                     text = title,
-                    modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 2.dp),
+                    modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp),
                     style = MaterialTheme.typography.titleMedium
                 )
-                Text(
-                    text = description,
-                    modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
-                )
+                if (description.isNotEmpty()) {
+                    Text(
+                        text = description,
+                        modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 2.dp)
+                    )
+                } else {
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
             }
         }
         Spacer(modifier = Modifier.height(16.dp))

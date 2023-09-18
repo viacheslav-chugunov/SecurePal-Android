@@ -1,5 +1,6 @@
 package viach.apps.securepal.ui.screen.authrecord
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import viach.apps.securepal.R
+import viach.apps.securepal.ui.view.HiddenRecordTextField
 import viach.apps.securepal.ui.view.RecordTextField
 import viach.apps.securepal.ui.view.RecordTopBar
 
@@ -53,7 +55,8 @@ fun AuthRecordScreen(
                 .background(
                     color = MaterialTheme.colorScheme.primaryContainer,
                     shape = CutCornerShape(16.dp)
-                ).verticalScroll(rememberScrollState())
+                )
+                .verticalScroll(rememberScrollState())
         ) {
             Spacer(modifier = Modifier.height(16.dp))
             RecordTextField(
@@ -78,31 +81,16 @@ fun AuthRecordScreen(
                     .padding(horizontal = 16.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RecordTextField(
-                    value = state.authRecord.password,
-                    onValueChanged = {
-                        onAction(AuthRecordAction.UpdateAuthRecord(state.authRecord.copy(password = it)))
-                    },
-                    labelRes = R.string.password,
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 16.dp),
-                    passwordMask = !state.showPassword
-                )
-                IconButton(
-                    onClick = { onAction(AuthRecordAction.ShowPassword(!state.showPassword)) },
-                    modifier = Modifier.padding(end = 16.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = if (state.showPassword) R.drawable.ic_visible else R.drawable.ic_hidden),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                }
-            }
+            HiddenRecordTextField(
+                value = state.authRecord.password,
+                onValueChanged = {
+                    onAction(AuthRecordAction.UpdateAuthRecord(state.authRecord.copy(password = it)))
+                },
+                labelRes = R.string.password,
+                hidden = !state.showPassword,
+                hiddenTintColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                onHiddenChanged = { onAction(AuthRecordAction.ShowPassword(!it)) }
+            )
             Spacer(modifier = Modifier.height(16.dp))
             RecordTextField(
                 value = state.authRecord.note,
