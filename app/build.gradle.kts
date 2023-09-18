@@ -1,10 +1,10 @@
 import java.util.Properties
 
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
+    id(Dependency.Plugin.APPLICATION)
+    id(Dependency.Plugin.KOTLIN)
+    id(Dependency.Plugin.KAPT)
+    id(Dependency.Plugin.HILT)
 }
 
 val privateProperties = Properties().apply {
@@ -19,14 +19,14 @@ val encryptionToken: String = privateProperties.getProperty("encryptionToken", "
 
 android {
     namespace = "viach.apps.securepal"
-    compileSdk = 34
+    compileSdk = Dependency.Build.COMPILE_SDK
 
     defaultConfig {
-        applicationId = "viach.apps.securepal"
-        minSdk = 21
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = Dependency.Build.APPLICATION_ID
+        minSdk = Dependency.Build.MIN_SDK
+        targetSdk = Dependency.Build.TARGET_SDK
+        versionCode = Dependency.Build.VERSION_CODE
+        versionName = Dependency.Build.VERSION_NAME
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -49,11 +49,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = Dependency.CompileOptions.SOURCE_COMPATIBILITY
+        targetCompatibility = Dependency.CompileOptions.TARGET_COMPATIBILITY
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = Dependency.KotlinOptions.JVM_TARGET
     }
     buildFeatures {
         compose = true
@@ -70,26 +70,26 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.activity:activity-compose:1.7.2")
-    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    implementation(project(mapOf("path" to ":shared")))
-    implementation(project(mapOf("path" to ":feature:encryption")))
-    implementation(project(mapOf("path" to ":feature:storage")))
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
-    implementation("androidx.navigation:navigation-compose:2.7.2")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation(project(Dependency.Project.SHARED))
+    implementation(project(Dependency.Project.STORAGE))
+
+    implementation(Dependency.Core.CORE)
+    implementation(Dependency.Core.LIFECYCLE)
+    implementation(Dependency.Compose.ACTIVITY)
+    implementation(platform(Dependency.Compose.PLATFORM))
+    implementation(Dependency.Compose.UI)
+    implementation(Dependency.Compose.GRAPHICS)
+    implementation(Dependency.Compose.PREVIEW)
+    implementation(Dependency.Compose.MATERIAL3)
+    testImplementation(Dependency.Test.JUNIT)
+    androidTestImplementation(Dependency.Test.JUNIT_EXT)
+    androidTestImplementation(Dependency.Test.ESPRESSO)
+    androidTestImplementation(platform(Dependency.Compose.PLATFORM))
+    androidTestImplementation(Dependency.Test.COMPOSE)
+    debugImplementation(Dependency.Compose.UI_TOOLING)
+    debugImplementation(Dependency.Compose.TEST_MANIFEST)
+    implementation(Dependency.Navigation.COMPOSE)
+    implementation(Dependency.Hilt.CORE)
+    implementation(Dependency.Hilt.NAVIGATION_COMPOSE)
+    kapt(Dependency.Hilt.KAPT)
 }

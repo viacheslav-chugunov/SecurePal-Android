@@ -1,14 +1,14 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    id(Dependency.Plugin.LIBRARY)
+    id(Dependency.Plugin.KOTLIN)
 }
 
 android {
     namespace = "viach.apps.shared"
-    compileSdk = 34
+    compileSdk = Dependency.Build.COMPILE_SDK
 
     defaultConfig {
-        minSdk = 21
+        minSdk = Dependency.Build.MIN_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -24,20 +24,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = Dependency.CompileOptions.SOURCE_COMPATIBILITY
+        targetCompatibility = Dependency.CompileOptions.TARGET_COMPATIBILITY
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = Dependency.KotlinOptions.JVM_TARGET
     }
 }
 
 dependencies {
-
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(Dependency.Core.CORE)
+    testImplementation(Dependency.Test.JUNIT)
+    androidTestImplementation(Dependency.Test.JUNIT_EXT)
+    androidTestImplementation(Dependency.Test.ESPRESSO)
 }

@@ -1,16 +1,16 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
-    id("com.google.dagger.hilt.android")
+    id(Dependency.Plugin.LIBRARY)
+    id(Dependency.Plugin.KOTLIN)
+    id(Dependency.Plugin.KAPT)
+    id(Dependency.Plugin.HILT)
 }
 
 android {
     namespace = "viach.apps.encryption"
-    compileSdk = 34
+    compileSdk = Dependency.Build.COMPILE_SDK
 
     defaultConfig {
-        minSdk = 21
+        minSdk = Dependency.Build.MIN_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -26,23 +26,21 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = Dependency.CompileOptions.SOURCE_COMPATIBILITY
+        targetCompatibility = Dependency.CompileOptions.TARGET_COMPATIBILITY
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = Dependency.KotlinOptions.JVM_TARGET
     }
 }
 
 dependencies {
+    implementation(project(Dependency.Project.SHARED))
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
-    implementation(project(mapOf("path" to ":shared")))
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation(Dependency.Core.CORE)
+    testImplementation(Dependency.Test.JUNIT)
+    androidTestImplementation(Dependency.Test.JUNIT_EXT)
+    androidTestImplementation(Dependency.Test.ESPRESSO)
+    implementation(Dependency.Hilt.CORE)
+    kapt(Dependency.Hilt.KAPT)
 }
