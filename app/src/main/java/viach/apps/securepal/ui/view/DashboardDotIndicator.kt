@@ -52,7 +52,10 @@ fun DashboardDotIndicator(
                 contentDescription = null
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = stringResource(id = if (currentPage == 2) R.string.notes else R.string.auth))
+            Text(
+                text = stringResource(id = if (currentPage == 2) R.string.notes else R.string.auth),
+                style = MaterialTheme.typography.titleLarge
+            )
         }
         Row(
             modifier = Modifier.weight(1f),
@@ -98,7 +101,10 @@ fun DashboardDotIndicator(
                 },
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = stringResource(id = if (currentPage == 0) R.string.notes else R.string.cards))
+            Text(
+                text = stringResource(id = if (currentPage == 0) R.string.notes else R.string.cards),
+                style = MaterialTheme.typography.titleLarge
+            )
             Spacer(modifier = Modifier.width(8.dp))
             Icon(
                 painter = painterResource(id = R.drawable.ic_two_arrows_next),

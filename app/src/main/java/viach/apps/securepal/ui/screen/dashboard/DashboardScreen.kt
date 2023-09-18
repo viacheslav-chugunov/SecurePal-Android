@@ -4,29 +4,41 @@ import android.widget.Space
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import viach.apps.securepal.R
 import viach.apps.securepal.Screen
 import viach.apps.securepal.ui.view.DashboardDotIndicator
+import viach.apps.securepal.ui.view.ShortRecord
 import viach.apps.securepal.ui.view.empty
+import java.util.Locale
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -81,30 +93,12 @@ fun DashboardScreen(
                             buttonColors = emptyMessageButtonColors,
                             onButtonClick = { onAction(DashboardAction.OpenScreen(Screen.NewAuthRecord)) }
                         )
-                        itemsIndexed(state.authRecords) { index, authRecord ->
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(start = 16.dp, end = 16.dp, top = 16.dp)
-                                    .background(
-                                        color = MaterialTheme.colorScheme.background,
-                                        shape = CutCornerShape(8.dp)
-                                    ).clickable {
-                                        onAction(DashboardAction.OpenScreen(Screen.ShowAuthRecord(authRecord)))
-                                    }
-                            ) {
-                                Text(
-                                    text = authRecord.title,
-                                    modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 2.dp)
-                                )
-                                Text(
-                                    text = authRecord.auth,
-                                    modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
-                                )
-                            }
-                            if (index != state.authRecords.lastIndex) {
-                                Spacer(modifier = Modifier.height(16.dp))
-                            }
+                        items(state.authRecords) { authRecord ->
+                            ShortRecord(
+                                title = authRecord.title,
+                                description = authRecord.auth,
+                                onClick = { onAction(DashboardAction.OpenScreen(Screen.ShowAuthRecord(authRecord))) }
+                            )
                         }
                     }
                 }
@@ -130,8 +124,12 @@ fun DashboardScreen(
                             buttonColors = emptyMessageButtonColors,
                             onButtonClick = { onAction(DashboardAction.OpenScreen(Screen.NewNoteRecord)) }
                         )
-                        items(state.noteRecords) { noteRecrod ->
-
+                        items(state.noteRecords) { noteRecorod ->
+                            ShortRecord(
+                                title = noteRecorod.title,
+                                description = noteRecorod.note,
+                                onClick = { onAction(DashboardAction.OpenScreen(Screen.ShowNoteRecord(noteRecorod))) }
+                            )
                         }
                     }
                 }
@@ -158,7 +156,11 @@ fun DashboardScreen(
                             onButtonClick = { onAction(DashboardAction.OpenScreen(Screen.NewCardRecord)) }
                         )
                         items(state.cardRecords) { cardRecord ->
-
+                            ShortRecord(
+                                title = cardRecord.title,
+                                description = cardRecord.number,
+                                onClick = { onAction(DashboardAction.OpenScreen(Screen.ShowCardRecord(cardRecord))) }
+                            )
                         }
                     }
                 }

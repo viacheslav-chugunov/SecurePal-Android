@@ -32,7 +32,7 @@ internal class NoteRecordEntity(
     )
 
     fun decrypt(encryptionRepository: EncryptionRepository): NoteRecordEntity = NoteRecordEntity(
-        encryptionRepository.encrypt(title),
+        encryptionRepository.decrypt(title),
         encryptionRepository.decrypt(note),
         createdAt,
         updatedAt
