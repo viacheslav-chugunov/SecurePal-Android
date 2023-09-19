@@ -81,8 +81,7 @@ fun NoteRecordScreen(
                 labelRes = R.string.note,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                multiline = true
+                    .padding(horizontal = 16.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
         }

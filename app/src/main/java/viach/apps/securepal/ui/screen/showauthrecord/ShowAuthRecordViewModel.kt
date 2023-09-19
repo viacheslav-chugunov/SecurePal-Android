@@ -7,20 +7,33 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import viach.apps.securepal.StateViewModel
 import viach.apps.securepal.model.AuthRecordUI
+import viach.apps.shared.repository.TimeRepository
 import viach.apps.storage.model.AuthRecord
 import viach.apps.storage.repository.AuthRecordRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class ShowAuthRecordViewModel @Inject constructor(
-    private val authRecordRepository: AuthRecordRepository
+    private val authRecordRepository: AuthRecordRepository,
+    private val timeRepository: TimeRepository
 ) : StateViewModel<ShowAuthRecordState>(ShowAuthRecordState()) {
     private var isAuthRecordsSet: Boolean = false
 
     fun setAuthRecord(authRecord: AuthRecord?) {
         if (isAuthRecordsSet || authRecord == null) return
         isAuthRecordsSet = true
-        state = state.copy(authRecord = authRecord)
+        val createdDate = timeRepository.createDate(authRecord.createdAt, "dd MMMM yyyy, HH:mm")
+        state = state.copy(authRecord = authRecord, createdDate = createdDate)
+        viewModelScope.launch(Dispatchers.IO) {
+            authRecordRepository.getByCreatedAt(authRecord.createdAt).collect {
+                val updatedDate = if (it.createdAt != it.updatedAt) {
+                    timeRepository.createDate(authRecord.updatedAt, "dd MMMM yyyy, HH:mm")
+                } else {
+                    ""
+                }
+                state = state.copy(authRecord = it, updatedDate = updatedDate)
+            }
+        }
     }
 
     fun handle(action: ShowAuthRecordAction) {
@@ -36,6 +49,9 @@ class ShowAuthRecordViewModel @Inject constructor(
             }
             is ShowAuthRecordAction.OpenScreen -> {
                 state = state.copy(openScreen = action.screen)
+            }
+            is ShowAuthRecordAction.ShowPassword -> {
+                state = state.copy(showPassword = action.show)
             }
         }
     }

@@ -7,12 +7,16 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
+import viach.apps.storage.room.entity.CardRecordEntity
 import viach.apps.storage.room.entity.NoteRecordEntity
 
 @Dao
 internal interface NoteRecordDao {
     @Query("SELECT * FROM NOTE_RECORD ORDER BY CREATED_AT DESC")
     fun getAll(): Flow<List<NoteRecordEntity>>
+
+    @Query("SELECT * FROM NOTE_RECORD WHERE CREATED_AT=:createdAt LIMIT 1")
+    fun getByCreatedAt(createdAt: Long): Flow<NoteRecordEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun add(record: NoteRecordEntity)

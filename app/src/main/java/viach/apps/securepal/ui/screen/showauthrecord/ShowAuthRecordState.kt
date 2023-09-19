@@ -7,5 +7,8 @@ import viach.apps.storage.model.AuthRecord
 data class ShowAuthRecordState(
     val authRecord: AuthRecord = AuthRecordUI(),
     val openScreen: Screen? = null,
-    val closeScreen: Boolean = false
+    val closeScreen: Boolean = false,
+    val showPassword: Boolean = false,
+    val createdDate: String = "",
+    val updatedDate: String = ""
 )

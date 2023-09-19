@@ -23,7 +23,7 @@ fun RecordTextField(
     @StringRes labelRes: Int,
     modifier: Modifier,
     passwordMask: Boolean = false,
-    multiline: Boolean = false,
+    multiline: Boolean = true,
     error: Boolean = false
 ) {
     TextField(

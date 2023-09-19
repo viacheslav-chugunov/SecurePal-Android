@@ -1,6 +1,8 @@
 plugins {
     id(Dependency.Plugin.LIBRARY)
     id(Dependency.Plugin.KOTLIN)
+    id(Dependency.Plugin.HILT)
+    id(Dependency.Plugin.KAPT)
 }
 
 android {
@@ -37,4 +39,6 @@ dependencies {
     testImplementation(Dependency.Test.JUNIT)
     androidTestImplementation(Dependency.Test.JUNIT_EXT)
     androidTestImplementation(Dependency.Test.ESPRESSO)
+    implementation(Dependency.Hilt.CORE)
+    kapt(Dependency.Hilt.KAPT)
 }

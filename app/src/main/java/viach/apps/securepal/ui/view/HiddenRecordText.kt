@@ -14,27 +14,23 @@ import androidx.compose.ui.unit.dp
 import viach.apps.securepal.R
 
 @Composable
-fun HiddenRecordTextField(
-    value: String,
-    onValueChanged: (String) -> Unit,
+fun HiddenRecordText(
+    text: String,
     @StringRes labelRes: Int,
+    hiddenTintColor: Color,
     hidden: Boolean,
     onHiddenChanged: (Boolean) -> Unit,
-    hiddenTintColor: Color,
     multiline: Boolean = true
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        RecordTextField(
-            value = value,
-            onValueChanged = onValueChanged,
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        RecordText(
+            text = text,
             labelRes = labelRes,
+            passwordMask = hidden,
+            multiline = multiline,
             modifier = Modifier
                 .weight(1f)
-                .padding(start = 16.dp),
-            passwordMask = hidden,
-            multiline = multiline
+                .padding(start = 16.dp)
         )
         IconButton(
             onClick = { onHiddenChanged(!hidden) },

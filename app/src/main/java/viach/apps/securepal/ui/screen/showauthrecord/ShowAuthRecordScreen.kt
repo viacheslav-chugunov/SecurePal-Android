@@ -2,8 +2,10 @@ package viach.apps.securepal.ui.screen.showauthrecord
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CutCornerShape
@@ -13,7 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import viach.apps.securepal.R
 import viach.apps.securepal.Screen
+import viach.apps.securepal.ui.view.HiddenRecordText
+import viach.apps.securepal.ui.view.RecordText
 import viach.apps.securepal.ui.view.ShowRecordTopBar
 
 @Composable
@@ -57,7 +62,63 @@ fun ShowAuthRecordScreen(
                 )
                 .verticalScroll(rememberScrollState())
         ) {
-
+            Spacer(modifier = Modifier.height(16.dp))
+            RecordText(
+                text = state.authRecord.title,
+                labelRes = R.string.title,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            RecordText(
+                text = state.authRecord.auth,
+                labelRes = R.string.auth,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            )
+            if (state.authRecord.password.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(16.dp))
+                HiddenRecordText(
+                    text = state.authRecord.password,
+                    labelRes = R.string.password,
+                    hidden = !state.showPassword,
+                    onHiddenChanged = { onAction(ShowAuthRecordAction.ShowPassword(!it)) },
+                    hiddenTintColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
+            if (state.authRecord.note.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(16.dp))
+                RecordText(
+                    text = state.authRecord.note,
+                    labelRes = R.string.note,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                )
+            }
+            if (state.createdDate.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(16.dp))
+                RecordText(
+                    text = state.createdDate,
+                    labelRes = R.string.created_at,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                )
+            }
+            if (state.updatedDate.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(16.dp))
+                RecordText(
+                    text = state.updatedDate,
+                    labelRes = R.string.updated_at,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

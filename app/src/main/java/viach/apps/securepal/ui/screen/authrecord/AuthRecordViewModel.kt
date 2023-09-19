@@ -32,7 +32,11 @@ class AuthRecordViewModel @Inject constructor(
                     state = state.copy(authError = true, errorMessageRes = R.string.auth_required)
                 } else {
                     viewModelScope.launch(Dispatchers.IO) {
-                        authRecordRepository.addRecord(state.authRecord)
+                        if (isEditableAuthRecordSet) {
+                            authRecordRepository.updateRecord(state.authRecord.copy(updatedAt = System.currentTimeMillis()))
+                        } else {
+                            authRecordRepository.addRecord(state.authRecord)
+                        }
                         state = state.copy(closeScreen = true)
                     }
                 }

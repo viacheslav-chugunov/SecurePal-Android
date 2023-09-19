@@ -2,6 +2,7 @@ package viach.apps.storage.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
 import viach.apps.encryption.repository.EncryptionRepository
 import viach.apps.storage.model.NoteRecord
@@ -17,6 +18,9 @@ internal class DefaultNoteRecordRepository(
     
     override fun getAll(): Flow<List<NoteRecord>> =
         noteRecordDao.getAll().map { list -> list.map { it.decrypt(encryptionRepository) } }
+
+    override fun getByCreatedAt(createdAt: Long): Flow<NoteRecord> =
+        noteRecordDao.getByCreatedAt(createdAt).mapNotNull { it?.decrypt(encryptionRepository) }
 
     override suspend fun addRecord(record: NoteRecord) = withContext(coroutineContext) {
         noteRecordDao.add(NoteRecordEntity(record).encrypt(encryptionRepository))

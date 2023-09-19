@@ -14,6 +14,9 @@ internal interface CardRecordDao {
     @Query("SELECT * FROM CARD_RECORD ORDER BY CREATED_AT DESC")
     fun getAll(): Flow<List<CardRecordEntity>>
 
+    @Query("SELECT * FROM CARD_RECORD WHERE CREATED_AT=:createdAt LIMIT 1")
+    fun getByCreatedAt(createdAt: Long): Flow<CardRecordEntity?>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun add(record: CardRecordEntity)
 

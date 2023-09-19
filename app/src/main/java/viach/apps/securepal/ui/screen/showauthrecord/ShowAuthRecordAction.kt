@@ -6,4 +6,5 @@ sealed interface ShowAuthRecordAction {
     object DeleteAuthRecord : ShowAuthRecordAction
     class OpenScreen(val screen: Screen) : ShowAuthRecordAction
     object HandleOpenedScreen : ShowAuthRecordAction
+    class ShowPassword(val show: Boolean) : ShowAuthRecordAction
 }

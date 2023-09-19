@@ -12,6 +12,7 @@ interface NoteRecordRepository : TypedRecordRepository<NoteRecord>
 
 interface TypedRecordRepository<Type : Record> {
     fun getAll(): Flow<List<Type>>
+    fun getByCreatedAt(createdAt: Long): Flow<Type>
     suspend fun addRecord(record: Type)
     suspend fun removeRecord(record: Type)
     suspend fun updateRecord(record: Type)

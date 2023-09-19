@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import viach.apps.securepal.Screen
 import viach.apps.securepal.ui.screen.dashboard.DashboardAction
@@ -58,7 +59,6 @@ fun ShortRecord(
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.padding(8.dp)
-
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))
@@ -73,12 +73,16 @@ fun ShortRecord(
                 Text(
                     text = title,
                     modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
                 if (description.isNotEmpty()) {
                     Text(
                         text = description,
-                        modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 2.dp)
+                        modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 2.dp),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 } else {
                     Spacer(modifier = Modifier.height(8.dp))

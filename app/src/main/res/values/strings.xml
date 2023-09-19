@@ -24,4 +24,6 @@
     <string name="title_required">Title required</string>
     <string name="auth_required">Auth required</string>
     <string name="card_number_required">Card number required</string>
+    <string name="created_at">Created at</string>
+    <string name="updated_at">Updated at</string>
 </resources>
