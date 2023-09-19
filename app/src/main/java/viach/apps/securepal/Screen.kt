@@ -10,12 +10,36 @@ sealed class Screen(val route: String, val newTask: Boolean = false) {
     object NewAuthRecord : Screen(Route.AUTH_RECORD)
     object NewNoteRecord : Screen(Route.NOTE_RECORD)
     object NewCardRecord : Screen(Route.CARD_RECORD)
-    class EditAuthRecord(val authRecord: AuthRecord) : Screen(Route.AUTH_RECORD)
-    class EditNoteRecord(val noteRecord: NoteRecord) : Screen(Route.NOTE_RECORD)
-    class EditCardRecord(val cardRecord: CardRecord) : Screen(Route.CARD_RECORD)
-    class ShowAuthRecord(val authRecord: AuthRecord) : Screen(Route.SHOW_AUTH_RECORD)
-    class ShowNoteRecord(val noteRecord: NoteRecord) : Screen(Route.SHOW_NOTE_RECORD)
-    class ShowCardRecord(val cardRecord: CardRecord) : Screen(Route.SHOW_CARD_RECORD)
+    class EditAuthRecord(val authRecord: AuthRecord) : Screen(Route.AUTH_RECORD) {
+        object Key {
+            const val AUTH_RECORD = "auth-record"
+        }
+    }
+    class EditNoteRecord(val noteRecord: NoteRecord) : Screen(Route.NOTE_RECORD) {
+        object Key {
+            const val NOTE_RECORD = "note-record"
+        }
+    }
+    class EditCardRecord(val cardRecord: CardRecord) : Screen(Route.CARD_RECORD) {
+        object Key {
+            const val CARD_RECORD = "card-record"
+        }
+    }
+    class ShowAuthRecord(val authRecord: AuthRecord) : Screen(Route.SHOW_AUTH_RECORD) {
+        object Key {
+            const val AUTH_RECORD = "auth-record"
+        }
+    }
+    class ShowNoteRecord(val noteRecord: NoteRecord) : Screen(Route.SHOW_NOTE_RECORD) {
+        object Key {
+            const val NOTE_RECORD = "note-record"
+        }
+    }
+    class ShowCardRecord(val cardRecord: CardRecord) : Screen(Route.SHOW_CARD_RECORD) {
+        object Key {
+            const val CARD_RECORD = "card-record"
+        }
+    }
 
 
     object Route {

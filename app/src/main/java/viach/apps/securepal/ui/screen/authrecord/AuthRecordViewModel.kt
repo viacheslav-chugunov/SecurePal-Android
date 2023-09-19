@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import viach.apps.securepal.R
 import viach.apps.securepal.StateViewModel
+import viach.apps.securepal.model.AuthRecordUI
 import viach.apps.storage.model.AuthRecord
 import viach.apps.storage.repository.AuthRecordRepository
 import javax.inject.Inject
@@ -14,6 +15,13 @@ import javax.inject.Inject
 class AuthRecordViewModel @Inject constructor(
     private val authRecordRepository: AuthRecordRepository
 ) : StateViewModel<AuthRecordState>(AuthRecordState()) {
+    private var isEditableAuthRecordSet: Boolean = false
+
+    fun setEditableAuthRecord(authRecord: AuthRecord?) {
+        if (isEditableAuthRecordSet || authRecord == null) return
+        isEditableAuthRecordSet = true
+        state = state.copy(authRecord = AuthRecordUI(authRecord))
+    }
 
     fun handle(action: AuthRecordAction) {
         when (action) {

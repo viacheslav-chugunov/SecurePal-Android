@@ -6,6 +6,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import viach.apps.securepal.R
 import viach.apps.securepal.StateViewModel
+import viach.apps.securepal.model.NoteRecordUI
+import viach.apps.storage.model.NoteRecord
 import viach.apps.storage.repository.NoteRecordRepository
 import javax.inject.Inject
 
@@ -13,6 +15,13 @@ import javax.inject.Inject
 class NoteRecordViewModel @Inject constructor(
     private val noteRecordRepository: NoteRecordRepository
 ) : StateViewModel<NoteRecordState>(NoteRecordState()) {
+    private var isEditableNoteRecordSet: Boolean = false
+
+    fun setEditableNoteRecord(noteRecord: NoteRecord?) {
+        if (isEditableNoteRecordSet || noteRecord == null) return
+        isEditableNoteRecordSet = true
+        state = state.copy(noteRecord = NoteRecordUI(noteRecord))
+    }
 
     fun handle(action: NoteRecordAction) {
         when (action) {

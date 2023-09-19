@@ -35,6 +35,7 @@ import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import viach.apps.securepal.R
 import viach.apps.securepal.Screen
+import viach.apps.securepal.model.AuthRecordParcelable
 import viach.apps.securepal.ui.view.DashboardDotIndicator
 import viach.apps.securepal.ui.view.ShortRecord
 import viach.apps.securepal.ui.view.empty

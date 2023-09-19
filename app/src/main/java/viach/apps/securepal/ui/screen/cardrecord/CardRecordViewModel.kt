@@ -6,6 +6,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import viach.apps.securepal.R
 import viach.apps.securepal.StateViewModel
+import viach.apps.securepal.model.CardRecordUI
+import viach.apps.storage.model.CardRecord
 import viach.apps.storage.repository.CardRecordRepository
 import javax.inject.Inject
 
@@ -13,6 +15,13 @@ import javax.inject.Inject
 class CardRecordViewModel @Inject constructor(
     private val cardRecordRepository: CardRecordRepository
 ) : StateViewModel<CardRecordState>(CardRecordState()) {
+    private var isEditableCardRecordSet: Boolean = false
+
+    fun setEditableCardRecord(cardRecord: CardRecord?) {
+        if (isEditableCardRecordSet || cardRecord == null) return
+        isEditableCardRecordSet = true
+        state = state.copy(cardRecord = CardRecordUI(cardRecord))
+    }
 
     fun handle(action: CardRecordAction) {
         when (action) {

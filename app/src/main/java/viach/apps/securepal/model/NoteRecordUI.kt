@@ -7,4 +7,13 @@ data class NoteRecordUI(
     override val note: String = "",
     override val createdAt: Long = System.currentTimeMillis(),
     override val updatedAt: Long = createdAt
-) : NoteRecord
+) : NoteRecord {
+
+    constructor(noteRecord: NoteRecord) : this(
+        noteRecord.title,
+        noteRecord.note,
+        noteRecord.createdAt,
+        noteRecord.updatedAt
+    )
+
+}

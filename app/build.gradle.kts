@@ -5,6 +5,7 @@ plugins {
     id(Dependency.Plugin.KOTLIN)
     id(Dependency.Plugin.KAPT)
     id(Dependency.Plugin.HILT)
+    id(Dependency.Plugin.PARCELIZE)
 }
 
 val privateProperties = Properties().apply {

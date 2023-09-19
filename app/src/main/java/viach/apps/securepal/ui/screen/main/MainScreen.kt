@@ -1,5 +1,6 @@
 package viach.apps.securepal.ui.screen.main
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,7 +29,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import viach.apps.securepal.R
 import viach.apps.securepal.Screen
+import viach.apps.securepal.extension.getParcelable
 import viach.apps.securepal.extension.navigate
+import viach.apps.securepal.model.AuthRecordParcelable
+import viach.apps.securepal.model.AuthRecordUI
+import viach.apps.securepal.model.CardRecordParcelable
+import viach.apps.securepal.model.NoteRecordParcelable
 import viach.apps.securepal.ui.screen.authrecord.AuthRecordScreen
 import viach.apps.securepal.ui.screen.authrecord.AuthRecordViewModel
 import viach.apps.securepal.ui.screen.cardrecord.CardRecordScreen
@@ -41,6 +47,7 @@ import viach.apps.securepal.ui.screen.settings.SettingsScreen
 import viach.apps.securepal.ui.screen.showauthrecord.ShowAuthRecordScreen
 import viach.apps.securepal.ui.screen.showauthrecord.ShowAuthRecordViewModel
 import viach.apps.securepal.ui.theme.SecurePalTheme
+import viach.apps.storage.model.AuthRecord
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -144,6 +151,8 @@ fun MainScreen() {
                     }
                     composable(Screen.Route.AUTH_RECORD) {
                         val viewModel = hiltViewModel<AuthRecordViewModel>()
+                        val authRecord = navController.getParcelable<AuthRecordParcelable>(Screen.EditAuthRecord.Key.AUTH_RECORD)
+                        viewModel.setEditableAuthRecord(authRecord)
                         AuthRecordScreen(
                             state = viewModel.stateFlow.collectAsState().value,
                             onAction = viewModel::handle,
@@ -153,6 +162,8 @@ fun MainScreen() {
                     }
                     composable(Screen.Route.NOTE_RECORD) {
                         val viewModel = hiltViewModel<NoteRecordViewModel>()
+                        val noteRecord = navController.getParcelable<NoteRecordParcelable>(Screen.EditNoteRecord.Key.NOTE_RECORD)
+                        viewModel.setEditableNoteRecord(noteRecord)
                         NoteRecordScreen(
                             state = viewModel.stateFlow.collectAsState().value,
                             onAction = viewModel::handle,
@@ -162,6 +173,8 @@ fun MainScreen() {
                     }
                     composable(Screen.Route.CARD_RECORD) {
                         val viewModel = hiltViewModel<CardRecordViewModel>()
+                        val cardRecord = navController.getParcelable<CardRecordParcelable>(Screen.EditCardRecord.Key.CARD_RECORD)
+                        viewModel.setEditableCardRecord(cardRecord)
                         CardRecordScreen(
                             state = viewModel.stateFlow.collectAsState().value,
                             onAction = viewModel::handle,
@@ -171,6 +184,8 @@ fun MainScreen() {
                     }
                     composable(Screen.Route.SHOW_AUTH_RECORD) {
                         val viewModel = hiltViewModel<ShowAuthRecordViewModel>()
+                        val authRecord = navController.getParcelable<AuthRecordParcelable>(Screen.ShowAuthRecord.Key.AUTH_RECORD)
+                        viewModel.setAuthRecord(authRecord)
                         ShowAuthRecordScreen(
                             state = viewModel.stateFlow.collectAsState().value,
                             onAction = viewModel::handle,
