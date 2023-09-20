@@ -26,4 +26,8 @@
     <string name="card_number_required">Card number required</string>
     <string name="created_at">Created at</string>
     <string name="updated_at">Updated at</string>
+    <string name="title_copied">Title copied</string>
+    <string name="auth_copied">Auth copied</string>
+    <string name="password_copied">Password copied</string>
+    <string name="note_copied">Note copied</string>
 </resources>

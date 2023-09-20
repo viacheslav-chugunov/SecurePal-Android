@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import viach.apps.securepal.R
 import viach.apps.securepal.StateViewModel
 import viach.apps.securepal.model.AuthRecordUI
 import viach.apps.shared.repository.ClipboardRepository
@@ -57,10 +58,10 @@ class ShowAuthRecordViewModel @Inject constructor(
             }
             is ShowAuthRecordAction.CopyToClipboard -> {
                 clipboardRepository.copy(action.text)
-                // TODO show message
+                state = state.copy(showMessageRes = action.messageRes)
             }
             ShowAuthRecordAction.HandleShownMessage -> {
-                state = state.copy(showMessage = "")
+                state = state.copy(showMessageRes = 0)
             }
         }
     }

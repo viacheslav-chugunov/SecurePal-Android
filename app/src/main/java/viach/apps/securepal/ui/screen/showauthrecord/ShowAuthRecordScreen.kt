@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import viach.apps.securepal.R
 import viach.apps.securepal.Screen
@@ -29,6 +30,7 @@ fun ShowAuthRecordScreen(
     navigateBack: () -> Unit,
     showMessage: (String) -> Unit
 ) {
+    val context = LocalContext.current
 
     LaunchedEffect(state.closeScreen) {
         if (state.closeScreen) {
@@ -43,9 +45,9 @@ fun ShowAuthRecordScreen(
         }
     }
 
-    LaunchedEffect(state.showMessage) {
-        if (state.showMessage.isNotEmpty()) {
-            showMessage(state.showMessage)
+    LaunchedEffect(state.showMessageRes) {
+        if (state.showMessageRes != 0) {
+            showMessage(context.getString(state.showMessageRes))
             onAction(ShowAuthRecordAction.HandleShownMessage)
         }
     }
@@ -77,7 +79,7 @@ fun ShowAuthRecordScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                onLongClick = { onAction(ShowAuthRecordAction.CopyToClipboard(state.authRecord.title)) }
+                onLongClick = { onAction(ShowAuthRecordAction.CopyToClipboard(state.authRecord.title, R.string.title_copied)) }
             )
             Spacer(modifier = Modifier.height(16.dp))
             RecordText(
@@ -86,7 +88,7 @@ fun ShowAuthRecordScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                onLongClick = { onAction(ShowAuthRecordAction.CopyToClipboard(state.authRecord.auth)) }
+                onLongClick = { onAction(ShowAuthRecordAction.CopyToClipboard(state.authRecord.auth, R.string.auth_copied)) }
             )
             if (state.authRecord.password.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(16.dp))
@@ -96,7 +98,7 @@ fun ShowAuthRecordScreen(
                     hidden = !state.showPassword,
                     onHiddenChanged = { onAction(ShowAuthRecordAction.ShowPassword(!it)) },
                     hiddenTintColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    onLongClick = { onAction(ShowAuthRecordAction.CopyToClipboard(state.authRecord.password)) }
+                    onLongClick = { onAction(ShowAuthRecordAction.CopyToClipboard(state.authRecord.password, R.string.password_copied)) }
                 )
             }
             if (state.authRecord.note.isNotEmpty()) {
@@ -107,7 +109,7 @@ fun ShowAuthRecordScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
-                    onLongClick = { onAction(ShowAuthRecordAction.CopyToClipboard(state.authRecord.note)) }
+                    onLongClick = { onAction(ShowAuthRecordAction.CopyToClipboard(state.authRecord.note, R.string.note_copied)) }
                 )
             }
             if (state.createdDate.isNotEmpty()) {
