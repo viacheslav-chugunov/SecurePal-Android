@@ -45,6 +45,8 @@ import viach.apps.securepal.ui.screen.noterecord.NoteRecordViewModel
 import viach.apps.securepal.ui.screen.settings.SettingsScreen
 import viach.apps.securepal.ui.screen.showauthrecord.ShowAuthRecordScreen
 import viach.apps.securepal.ui.screen.showauthrecord.ShowAuthRecordViewModel
+import viach.apps.securepal.ui.screen.shownoterecord.ShowNoteRecordScreen
+import viach.apps.securepal.ui.screen.shownoterecord.ShowNoteRecordViewModel
 import viach.apps.securepal.ui.theme.SecurePalTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -210,7 +212,16 @@ fun MainScreen() {
                         )
                     }
                     composable(Screen.Route.SHOW_NOTE_RECORD) {
-
+                        val viewModel = hiltViewModel<ShowNoteRecordViewModel>()
+                        val noteRecord = navController.getParcelable<NoteRecordParcelable>(Screen.ShowNoteRecord.Key.NOTE_RECORD)
+                        viewModel.setNoteRecord(noteRecord)
+                        ShowNoteRecordScreen(
+                            state = viewModel.stateFlow.collectAsState().value,
+                            onAction = viewModel::handle,
+                            openScreen = navController::navigate,
+                            navigateBack = navController::popBackStack,
+                            showMessage = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Info(it))) }
+                        )
                     }
                     composable(Screen.Route.SHOW_CARD_RECORD) {
 

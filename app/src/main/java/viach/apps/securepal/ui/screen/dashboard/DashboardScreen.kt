@@ -128,7 +128,7 @@ fun DashboardScreen(
                         items(state.noteRecords) { noteRecord ->
                             ShortRecord(
                                 title = noteRecord.title,
-                                description = "",
+                                description = noteRecord.note,
                                 onClick = { onAction(DashboardAction.OpenScreen(Screen.ShowNoteRecord(noteRecord))) }
                             )
                         }

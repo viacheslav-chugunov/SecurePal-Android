@@ -30,7 +30,11 @@ class NoteRecordViewModel @Inject constructor(
                     state = state.copy(titleError = true, errorMessageRes = R.string.title_required)
                 } else {
                     viewModelScope.launch(Dispatchers.IO) {
-                        noteRecordRepository.addRecord(state.noteRecord)
+                        if (isEditableNoteRecordSet) {
+                            noteRecordRepository.updateRecord(state.noteRecord.copy(updatedAt = System.currentTimeMillis()))
+                        } else {
+                            noteRecordRepository.addRecord(state.noteRecord)
+                        }
                         state = state.copy(closeScreen = true)
                     }
                 }
