@@ -30,7 +30,7 @@ class ShowAuthRecordViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             authRecordRepository.getByCreatedAt(authRecord.createdAt).collect {
                 val updatedDate = if (it.createdAt != it.updatedAt) {
-                    timeRepository.createDate(authRecord.updatedAt, "dd MMMM yyyy, HH:mm")
+                    timeRepository.createDate(it.updatedAt, "dd MMMM yyyy, HH:mm")
                 } else {
                     ""
                 }
