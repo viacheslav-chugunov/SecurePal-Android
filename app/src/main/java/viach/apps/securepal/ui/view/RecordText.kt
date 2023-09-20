@@ -1,7 +1,9 @@
 package viach.apps.securepal.ui.view
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,13 +16,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RecordText(
     text: String,
     @StringRes labelRes: Int,
     modifier: Modifier = Modifier,
+    onLongClick: (() -> Unit)? = null,
     passwordMask: Boolean = false,
-    multiline: Boolean = true
+    multiline: Boolean = true,
 ) {
     Column(
         modifier = modifier
@@ -28,6 +32,7 @@ fun RecordText(
                 color = MaterialTheme.colorScheme.background,
                 shape = CutCornerShape(8.dp)
             ).padding(all = 16.dp)
+            .combinedClickable(onLongClick = onLongClick, onClick = {})
     ) {
         Text(
             text = stringResource(id = labelRes),

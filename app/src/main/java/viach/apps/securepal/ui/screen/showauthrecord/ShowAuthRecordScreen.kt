@@ -26,7 +26,8 @@ fun ShowAuthRecordScreen(
     state: ShowAuthRecordState,
     onAction: (ShowAuthRecordAction) -> Unit,
     openScreen: (Screen) -> Unit,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    showMessage: (String) -> Unit
 ) {
 
     LaunchedEffect(state.closeScreen) {
@@ -39,6 +40,13 @@ fun ShowAuthRecordScreen(
         state.openScreen?.let {
             openScreen(it)
             onAction(ShowAuthRecordAction.HandleOpenedScreen)
+        }
+    }
+
+    LaunchedEffect(state.showMessage) {
+        if (state.showMessage.isNotEmpty()) {
+            showMessage(state.showMessage)
+            onAction(ShowAuthRecordAction.HandleShownMessage)
         }
     }
 
@@ -68,7 +76,8 @@ fun ShowAuthRecordScreen(
                 labelRes = R.string.title,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 16.dp),
+                onLongClick = { onAction(ShowAuthRecordAction.CopyToClipboard(state.authRecord.title)) }
             )
             Spacer(modifier = Modifier.height(16.dp))
             RecordText(
@@ -76,7 +85,8 @@ fun ShowAuthRecordScreen(
                 labelRes = R.string.auth,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 16.dp),
+                onLongClick = { onAction(ShowAuthRecordAction.CopyToClipboard(state.authRecord.auth)) }
             )
             if (state.authRecord.password.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(16.dp))
@@ -85,7 +95,8 @@ fun ShowAuthRecordScreen(
                     labelRes = R.string.password,
                     hidden = !state.showPassword,
                     onHiddenChanged = { onAction(ShowAuthRecordAction.ShowPassword(!it)) },
-                    hiddenTintColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    hiddenTintColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    onLongClick = { onAction(ShowAuthRecordAction.CopyToClipboard(state.authRecord.password)) }
                 )
             }
             if (state.authRecord.note.isNotEmpty()) {
@@ -95,7 +106,8 @@ fun ShowAuthRecordScreen(
                     labelRes = R.string.note,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
+                        .padding(horizontal = 16.dp),
+                    onLongClick = { onAction(ShowAuthRecordAction.CopyToClipboard(state.authRecord.note)) }
                 )
             }
             if (state.createdDate.isNotEmpty()) {

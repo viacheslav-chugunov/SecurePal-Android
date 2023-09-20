@@ -10,5 +10,6 @@ data class ShowAuthRecordState(
     val closeScreen: Boolean = false,
     val showPassword: Boolean = false,
     val createdDate: String = "",
-    val updatedDate: String = ""
+    val updatedDate: String = "",
+    val showMessage: String = ""
 )

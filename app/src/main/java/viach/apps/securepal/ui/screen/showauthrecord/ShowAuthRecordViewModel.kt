@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import viach.apps.securepal.StateViewModel
 import viach.apps.securepal.model.AuthRecordUI
+import viach.apps.shared.repository.ClipboardRepository
 import viach.apps.shared.repository.TimeRepository
 import viach.apps.storage.model.AuthRecord
 import viach.apps.storage.repository.AuthRecordRepository
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ShowAuthRecordViewModel @Inject constructor(
     private val authRecordRepository: AuthRecordRepository,
-    private val timeRepository: TimeRepository
+    private val timeRepository: TimeRepository,
+    private val clipboardRepository: ClipboardRepository
 ) : StateViewModel<ShowAuthRecordState>(ShowAuthRecordState()) {
     private var isAuthRecordsSet: Boolean = false
 
@@ -52,6 +54,13 @@ class ShowAuthRecordViewModel @Inject constructor(
             }
             is ShowAuthRecordAction.ShowPassword -> {
                 state = state.copy(showPassword = action.show)
+            }
+            is ShowAuthRecordAction.CopyToClipboard -> {
+                clipboardRepository.copy(action.text)
+                // TODO show message
+            }
+            ShowAuthRecordAction.HandleShownMessage -> {
+                state = state.copy(showMessage = "")
             }
         }
     }

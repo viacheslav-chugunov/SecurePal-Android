@@ -21,7 +21,7 @@ fun RecordTextField(
     value: String,
     onValueChanged: (String) -> Unit,
     @StringRes labelRes: Int,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     passwordMask: Boolean = false,
     multiline: Boolean = true,
     error: Boolean = false

@@ -1,6 +1,5 @@
 package viach.apps.securepal.ui.screen.main
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -32,9 +31,9 @@ import viach.apps.securepal.Screen
 import viach.apps.securepal.extension.getParcelable
 import viach.apps.securepal.extension.navigate
 import viach.apps.securepal.model.AuthRecordParcelable
-import viach.apps.securepal.model.AuthRecordUI
 import viach.apps.securepal.model.CardRecordParcelable
 import viach.apps.securepal.model.NoteRecordParcelable
+import viach.apps.securepal.model.SnackbarMessage
 import viach.apps.securepal.ui.screen.authrecord.AuthRecordScreen
 import viach.apps.securepal.ui.screen.authrecord.AuthRecordViewModel
 import viach.apps.securepal.ui.screen.cardrecord.CardRecordScreen
@@ -47,7 +46,6 @@ import viach.apps.securepal.ui.screen.settings.SettingsScreen
 import viach.apps.securepal.ui.screen.showauthrecord.ShowAuthRecordScreen
 import viach.apps.securepal.ui.screen.showauthrecord.ShowAuthRecordViewModel
 import viach.apps.securepal.ui.theme.SecurePalTheme
-import viach.apps.storage.model.AuthRecord
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,17 +53,28 @@ fun MainScreen() {
     val mainViewModel = hiltViewModel<MainViewModel>()
     val state = mainViewModel.stateFlow.collectAsState().value
     val navController = rememberNavController()
-    val snackbarHostState = SnackbarHostState()
+    val errorSnackbarHostState = SnackbarHostState()
+    val infoSnackbarHostState = SnackbarHostState()
     val currentRoute = navController.currentBackStackEntryFlow.collectAsState(initial = null)
         .value?.destination?.route ?: ""
 
-    LaunchedEffect(state.snackbarErrorMessage) {
-        if (state.snackbarErrorMessage.isNotEmpty()) {
-            snackbarHostState.showSnackbar(
-                message = state.snackbarErrorMessage,
-                duration = SnackbarDuration.Short
-            )
-            mainViewModel.handle(MainAction.HandleSnackbarMessage)
+    LaunchedEffect(state.snackbarMessage) {
+        when (state.snackbarMessage) {
+            is SnackbarMessage.Error -> {
+                errorSnackbarHostState.showSnackbar(
+                    message = state.snackbarMessage.message,
+                    duration = SnackbarDuration.Short
+                )
+                mainViewModel.handle(MainAction.HandleSnackbarMessage)
+            }
+            is SnackbarMessage.Info -> {
+                infoSnackbarHostState.showSnackbar(
+                    message = state.snackbarMessage.message,
+                    duration = SnackbarDuration.Short
+                )
+                mainViewModel.handle(MainAction.HandleSnackbarMessage)
+            }
+            SnackbarMessage.None -> {}
         }
     }
 
@@ -118,12 +127,18 @@ fun MainScreen() {
                 }
             },
             snackbarHost = {
-                SnackbarHost(hostState = snackbarHostState) {
+                SnackbarHost(hostState = errorSnackbarHostState) {
                     Snackbar(
                         snackbarData = it,
                         modifier = Modifier.fillMaxWidth(),
                         containerColor = MaterialTheme.colorScheme.errorContainer,
                         contentColor = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                }
+                SnackbarHost(hostState = infoSnackbarHostState) {
+                    Snackbar(
+                        snackbarData = it,
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
             }
@@ -157,7 +172,7 @@ fun MainScreen() {
                             state = viewModel.stateFlow.collectAsState().value,
                             onAction = viewModel::handle,
                             navigateBack = navController::popBackStack,
-                            showError = { mainViewModel.handle(MainAction.ShowSnackbarError(it)) }
+                            showError = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Error(it))) }
                         )
                     }
                     composable(Screen.Route.NOTE_RECORD) {
@@ -168,7 +183,7 @@ fun MainScreen() {
                             state = viewModel.stateFlow.collectAsState().value,
                             onAction = viewModel::handle,
                             navigateBack = navController::popBackStack,
-                            showError = { mainViewModel.handle(MainAction.ShowSnackbarError(it)) }
+                            showError = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Error(it))) }
                         )
                     }
                     composable(Screen.Route.CARD_RECORD) {
@@ -179,7 +194,7 @@ fun MainScreen() {
                             state = viewModel.stateFlow.collectAsState().value,
                             onAction = viewModel::handle,
                             navigateBack = navController::popBackStack,
-                            showError = { mainViewModel.handle(MainAction.ShowSnackbarError(it)) }
+                            showError = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Error(it))) }
                         )
                     }
                     composable(Screen.Route.SHOW_AUTH_RECORD) {
@@ -190,7 +205,8 @@ fun MainScreen() {
                             state = viewModel.stateFlow.collectAsState().value,
                             onAction = viewModel::handle,
                             openScreen = navController::navigate,
-                            navigateBack = navController::popBackStack
+                            navigateBack = navController::popBackStack,
+                            showMessage = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Info(it))) }
                         )
                     }
                     composable(Screen.Route.SHOW_NOTE_RECORD) {

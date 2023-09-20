@@ -20,6 +20,7 @@ fun HiddenRecordText(
     hiddenTintColor: Color,
     hidden: Boolean,
     onHiddenChanged: (Boolean) -> Unit,
+    onLongClick: (() -> Unit)? = null,
     multiline: Boolean = true
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -30,7 +31,8 @@ fun HiddenRecordText(
             multiline = multiline,
             modifier = Modifier
                 .weight(1f)
-                .padding(start = 16.dp)
+                .padding(start = 16.dp),
+            onLongClick = onLongClick
         )
         IconButton(
             onClick = { onHiddenChanged(!hidden) },
