@@ -1,5 +1,6 @@
 package viach.apps.securepal.ui.view
 
+import android.util.Log
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon

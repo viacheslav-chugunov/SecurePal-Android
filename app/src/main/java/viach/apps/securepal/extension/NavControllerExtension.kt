@@ -34,3 +34,10 @@ private fun NavController.putParcelable(key: String, value: Parcelable) {
 inline fun <reified R : Parcelable> NavController.getParcelable(key: String): R? {
     return currentBackStackEntry?.savedStateHandle?.get(key)
 }
+
+fun NavController.move(screen: Screen) {
+    val currentRoute = currentDestination?.route ?: ""
+    if (currentRoute == screen.route) return
+    val isNavigated = popBackStack(currentRoute, inclusive = true)
+    if (!isNavigated) navigate(screen)
+}

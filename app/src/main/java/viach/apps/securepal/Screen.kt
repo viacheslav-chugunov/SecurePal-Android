@@ -6,7 +6,7 @@ import viach.apps.storage.model.NoteRecord
 
 sealed class Screen(val route: String, val newTask: Boolean = false) {
     object Dashboard : Screen(Route.DASHBOARD, true)
-    object Settings : Screen(Route.SETTINGS, true)
+    object Settings : Screen(Route.SETTINGS)
     object NewAuthRecord : Screen(Route.AUTH_RECORD)
     object NewNoteRecord : Screen(Route.NOTE_RECORD)
     object NewCardRecord : Screen(Route.CARD_RECORD)

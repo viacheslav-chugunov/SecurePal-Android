@@ -21,6 +21,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import viach.apps.securepal.Screen
 import viach.apps.securepal.extension.getParcelable
+import viach.apps.securepal.extension.move
 import viach.apps.securepal.extension.navigate
 import viach.apps.securepal.model.AuthRecordParcelable
 import viach.apps.securepal.model.CardRecordParcelable
@@ -81,7 +82,7 @@ fun MainScreen() {
                 bottomBar = {
                     MainBottomAppBar(
                         currentRoute = currentRoute,
-                        onClickDashboard = { navController.navigate(Screen.Dashboard)},
+                        onClickDashboard = { navController.move(Screen.Dashboard)},
                         onClickSettings = { navController.navigate(Screen.Settings) },
                         onClickAdd = { mainViewModel.handle(MainAction.ShowBottomSheet(true)) }
                     )
