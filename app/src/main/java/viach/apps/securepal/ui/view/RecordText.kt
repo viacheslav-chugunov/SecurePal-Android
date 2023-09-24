@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -31,8 +32,10 @@ fun RecordText(
             .background(
                 color = MaterialTheme.colorScheme.background,
                 shape = CutCornerShape(8.dp)
-            ).padding(all = 16.dp)
-            .combinedClickable(onLongClick = onLongClick, onClick = {})
+            )
+            .clip(CutCornerShape(8.dp))
+            .combinedClickable(enabled = onLongClick != null, onLongClick = onLongClick, onClick = {})
+            .padding(all = 16.dp)
     ) {
         Text(
             text = stringResource(id = labelRes),

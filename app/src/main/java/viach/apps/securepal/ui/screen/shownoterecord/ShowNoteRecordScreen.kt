@@ -80,15 +80,17 @@ fun ShowNoteRecordScreen(
                     .padding(horizontal = 16.dp),
                 onLongClick = { onAction(ShowNoteRecordAction.CopyToClipboard(state.noteRecord.title, R.string.title_copied)) }
             )
-            Spacer(modifier = Modifier.height(16.dp))
-            RecordText(
-                text = state.noteRecord.note,
-                labelRes = R.string.note,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                onLongClick = { onAction(ShowNoteRecordAction.CopyToClipboard(state.noteRecord.note, R.string.note_copied)) }
-            )
+            if (state.noteRecord.note.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(16.dp))
+                RecordText(
+                    text = state.noteRecord.note,
+                    labelRes = R.string.note,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    onLongClick = { onAction(ShowNoteRecordAction.CopyToClipboard(state.noteRecord.note, R.string.note_copied)) }
+                )
+            }
             if (state.createdDate.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(16.dp))
                 RecordText(

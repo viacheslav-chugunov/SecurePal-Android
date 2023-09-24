@@ -32,7 +32,11 @@ class CardRecordViewModel @Inject constructor(
                     state = state.copy(numberError = true, errorMessageRes = R.string.card_number_required)
                 } else {
                     viewModelScope.launch(Dispatchers.IO) {
-                        cardRecordRepository.addRecord(state.cardRecord)
+                        if (isEditableCardRecordSet) {
+                            cardRecordRepository.updateRecord(state.cardRecord.copy(updatedAt = System.currentTimeMillis()))
+                        } else {
+                            cardRecordRepository.addRecord(state.cardRecord)
+                        }
                         state = state.copy(closeScreen = true)
                     }
                 }

@@ -45,6 +45,7 @@ class ShowCardRecordViewModel @Inject constructor(
             ShowCardRecordAction.DeleteCardRecord -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     cardRecordRepository.removeRecord(state.cardRecord)
+                    state = state.copy(closeScreen = true)
                 }
             }
             ShowCardRecordAction.HandleOpenedScreen -> {

@@ -30,4 +30,9 @@
     <string name="auth_copied">Auth copied</string>
     <string name="password_copied">Password copied</string>
     <string name="note_copied">Note copied</string>
+    <string name="owner_copied">Owner copied</string>
+    <string name="expiration_date_copied">Expiration data copied</string>
+    <string name="verification_number_copied">Verification number copied</string>
+    <string name="pin_copied">Pin copied</string>
+    <string name="card_number_copied">Card number copied</string>
 </resources>

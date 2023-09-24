@@ -58,7 +58,7 @@ internal class CardRecordEntity(
         encryptionRepository.decrypt(number),
         encryptionRepository.decrypt(check),
         encryptionRepository.decrypt(pin),
-        expiration,
+        encryptionRepository.decrypt(expiration),
         createdAt,
         updatedAt
     )

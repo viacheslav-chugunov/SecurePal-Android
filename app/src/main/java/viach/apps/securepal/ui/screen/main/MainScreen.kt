@@ -45,6 +45,8 @@ import viach.apps.securepal.ui.screen.noterecord.NoteRecordViewModel
 import viach.apps.securepal.ui.screen.settings.SettingsScreen
 import viach.apps.securepal.ui.screen.showauthrecord.ShowAuthRecordScreen
 import viach.apps.securepal.ui.screen.showauthrecord.ShowAuthRecordViewModel
+import viach.apps.securepal.ui.screen.showcardrecord.ShowCardRecordScreen
+import viach.apps.securepal.ui.screen.showcardrecord.ShowCardRecordViewModel
 import viach.apps.securepal.ui.screen.shownoterecord.ShowNoteRecordScreen
 import viach.apps.securepal.ui.screen.shownoterecord.ShowNoteRecordViewModel
 import viach.apps.securepal.ui.theme.SecurePalTheme
@@ -224,7 +226,16 @@ fun MainScreen() {
                         )
                     }
                     composable(Screen.Route.SHOW_CARD_RECORD) {
-
+                        val viewModel = hiltViewModel<ShowCardRecordViewModel>()
+                        val cardRecord = navController.getParcelable<CardRecordParcelable>(Screen.ShowCardRecord.Key.CARD_RECORD)
+                        viewModel.setCardRecord(cardRecord)
+                        ShowCardRecordScreen(
+                            state = viewModel.stateFlow.collectAsState().value,
+                            onAction = viewModel::handle,
+                            openScreen = navController::navigate,
+                            navigateBack = navController::popBackStack,
+                            showMessage = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Info(it))) }
+                        )
                     }
                 }
             }
