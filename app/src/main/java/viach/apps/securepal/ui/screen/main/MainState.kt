@@ -4,4 +4,5 @@ import viach.apps.securepal.model.SnackbarMessage
 
 data class MainState(
     val snackbarMessage: SnackbarMessage = SnackbarMessage.None,
+    val showBottomSheet: Boolean = false
 )

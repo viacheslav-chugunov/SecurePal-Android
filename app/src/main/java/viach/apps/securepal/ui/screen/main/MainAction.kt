@@ -5,4 +5,5 @@ import viach.apps.securepal.model.SnackbarMessage
 sealed interface MainAction {
     class ShowSnackbar(val message: SnackbarMessage) : MainAction
     object HandleSnackbarMessage : MainAction
+    class ShowBottomSheet(val show: Boolean) : MainAction
 }

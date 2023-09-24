@@ -16,6 +16,9 @@ class MainViewModel @Inject constructor() : StateViewModel<MainState>(MainState(
             is MainAction.ShowSnackbar -> {
                 state = state.copy(snackbarMessage = action.message)
             }
+            is MainAction.ShowBottomSheet -> {
+                state = state.copy(showBottomSheet = action.show)
+            }
         }
     }
 

@@ -1,33 +1,25 @@
 package viach.apps.securepal.ui.screen.main
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import viach.apps.securepal.R
 import viach.apps.securepal.Screen
 import viach.apps.securepal.extension.getParcelable
 import viach.apps.securepal.extension.navigate
@@ -51,6 +43,8 @@ import viach.apps.securepal.ui.screen.showcardrecord.ShowCardRecordViewModel
 import viach.apps.securepal.ui.screen.shownoterecord.ShowNoteRecordScreen
 import viach.apps.securepal.ui.screen.shownoterecord.ShowNoteRecordViewModel
 import viach.apps.securepal.ui.theme.SecurePalTheme
+import viach.apps.securepal.ui.view.MainBottomAppBar
+import viach.apps.securepal.ui.view.MainBottomSheet
 
 @Composable
 fun MainScreen() {
@@ -86,50 +80,12 @@ fun MainScreen() {
         Box {
             Scaffold(
                 bottomBar = {
-                    if (currentRoute in setOf(Screen.Route.DASHBOARD, Screen.Route.SETTINGS)) {
-                        BottomAppBar(
-                            actions = {
-                                NavigationBarItem(
-                                    selected = currentRoute == Screen.Route.DASHBOARD,
-                                    onClick = { navController.navigate(Screen.Dashboard) },
-                                    icon = {
-                                        Icon(
-                                            painter = painterResource(id = R.drawable.ic_dashboard),
-                                            contentDescription = null
-                                        )
-                                    },
-                                    label = {
-                                        Text(
-                                            text = stringResource(id = R.string.dashboard)
-                                        )
-                                    }
-                                )
-                                NavigationBarItem(
-                                    selected = currentRoute == Screen.Route.SETTINGS,
-                                    onClick = { navController.navigate(Screen.Settings) },
-                                    icon = {
-                                        Icon(
-                                            painter = painterResource(id = R.drawable.ic_settings),
-                                            contentDescription = null
-                                        )
-                                    },
-                                    label = {
-                                        Text(
-                                            text = stringResource(id = R.string.settings)
-                                        )
-                                    }
-                                )
-                            },
-                            floatingActionButton = {
-                                FloatingActionButton(onClick = {  }) {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.ic_add),
-                                        contentDescription = null
-                                    )
-                                }
-                            }
-                        )
-                    }
+                    MainBottomAppBar(
+                        currentRoute = currentRoute,
+                        onClickDashboard = { navController.navigate(Screen.Dashboard)},
+                        onClickSettings = { navController.navigate(Screen.Settings) },
+                        onClickAdd = { mainViewModel.handle(MainAction.ShowBottomSheet(true)) }
+                    )
                 },
                 snackbarHost = {
                     SnackbarHost(hostState = errorSnackbarHostState) {
@@ -241,7 +197,13 @@ fun MainScreen() {
                     }
                 }
             }
-            // TODO
+            MainBottomSheet(
+                show = state.showBottomSheet,
+                onDismiss = { mainViewModel.handle(MainAction.ShowBottomSheet(false)) },
+                onClickAddAuth = { navController.navigate(Screen.NewAuthRecord) },
+                onClickAddNote = { navController.navigate(Screen.NewNoteRecord) },
+                onClickAddCard = { navController.navigate(Screen.NewCardRecord) }
+            )
         }
     }
 }
