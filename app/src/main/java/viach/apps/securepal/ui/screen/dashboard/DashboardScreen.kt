@@ -17,6 +17,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import viach.apps.securepal.R
@@ -69,7 +70,7 @@ fun DashboardScreen(
                             .background(
                                 color = MaterialTheme.colorScheme.primaryContainer,
                                 shape = CutCornerShape(16.dp)
-                            )
+                            ),
                     ) {
                         empty(
                             items = state.authRecords,
@@ -79,7 +80,10 @@ fun DashboardScreen(
                             buttonColors = emptyMessageButtonColors,
                             onButtonClick = { onAction(DashboardAction.OpenScreen(Screen.NewAuthRecord)) }
                         )
-                        itemsIndexed(state.authRecords) { index, authRecord ->
+                        itemsIndexed(
+                            items = state.authRecords,
+                            key = { _, item -> item.createdAt }
+                        ) { index, authRecord ->
                             ShortRecord(
                                 title = authRecord.title,
                                 description = authRecord.auth,
@@ -112,7 +116,10 @@ fun DashboardScreen(
                             buttonColors = emptyMessageButtonColors,
                             onButtonClick = { onAction(DashboardAction.OpenScreen(Screen.NewNoteRecord)) }
                         )
-                        itemsIndexed(state.noteRecords) { index, noteRecord ->
+                        itemsIndexed(
+                            items = state.noteRecords,
+                            key = { _, item -> item.createdAt }
+                        ) { index, noteRecord ->
                             ShortRecord(
                                 title = noteRecord.title,
                                 description = noteRecord.note,
@@ -145,7 +152,10 @@ fun DashboardScreen(
                             buttonColors = emptyMessageButtonColors,
                             onButtonClick = { onAction(DashboardAction.OpenScreen(Screen.NewCardRecord)) }
                         )
-                        itemsIndexed(state.cardRecords) { index, cardRecord ->
+                        itemsIndexed(
+                            items = state.cardRecords,
+                            key = { _, item -> item.createdAt }
+                        ) { index, cardRecord ->
                             ShortRecord(
                                 title = cardRecord.title,
                                 description = cardRecord.number,
