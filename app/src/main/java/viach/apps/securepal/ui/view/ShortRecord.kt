@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import viach.apps.securepal.Screen
@@ -27,7 +28,9 @@ import viach.apps.securepal.ui.screen.dashboard.DashboardAction
 fun ShortRecord(
     title: String,
     description: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    isFirst: Boolean,
+    isLast: Boolean
 ) {
     val circleText = when (title.length) {
         0 -> ""
@@ -37,10 +40,18 @@ fun ShortRecord(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+            .run {
+                if (isFirst) {
+                    clip(CutCornerShape(topStart = 16.dp, topEnd = 16.dp))
+                } else if (isLast) {
+                    clip(CutCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
+                } else {
+                    this
+                }
+            }
             .clickable {
                 onClick()
-            }
+            }.padding(start = 16.dp, end = 16.dp, top = 16.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
