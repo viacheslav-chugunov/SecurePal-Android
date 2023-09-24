@@ -43,7 +43,7 @@ object Dependency {
     }
 
     object Compose {
-        const val PLATFORM = "androidx.compose:compose-bom:2023.03.00"
+        const val PLATFORM = "androidx.compose:compose-bom:2023.08.00"
         const val ACTIVITY = "androidx.activity:activity-compose:1.7.2"
         const val UI = "androidx.compose.ui:ui"
         const val GRAPHICS = "androidx.compose.ui:ui-graphics"

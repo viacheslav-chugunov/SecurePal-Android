@@ -15,7 +15,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecordTextField(
     value: String,
@@ -30,14 +29,16 @@ fun RecordTextField(
         value = value,
         onValueChange = onValueChanged,
         modifier = modifier,
-        colors = TextFieldDefaults.textFieldColors(
-            containerColor = MaterialTheme.colorScheme.background,
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.colorScheme.background,
+            unfocusedContainerColor = MaterialTheme.colorScheme.background,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            textColor = MaterialTheme.colorScheme.onBackground,
+            focusedTextColor = MaterialTheme.colorScheme.onBackground,
+            unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
             focusedLabelColor = MaterialTheme.colorScheme.onBackground,
             unfocusedLabelColor = MaterialTheme.colorScheme.onBackground,
-            errorIndicatorColor = Color.Transparent
+            errorIndicatorColor = Color.Transparent,
         ),
         label = {
             Text(text = stringResource(id = labelRes))

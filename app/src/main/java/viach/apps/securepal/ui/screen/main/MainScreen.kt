@@ -1,5 +1,6 @@
 package viach.apps.securepal.ui.screen.main
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -51,7 +52,6 @@ import viach.apps.securepal.ui.screen.shownoterecord.ShowNoteRecordScreen
 import viach.apps.securepal.ui.screen.shownoterecord.ShowNoteRecordViewModel
 import viach.apps.securepal.ui.theme.SecurePalTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
     val mainViewModel = hiltViewModel<MainViewModel>()
@@ -83,162 +83,165 @@ fun MainScreen() {
     }
 
     SecurePalTheme {
-        Scaffold(
-            bottomBar = {
-                if (currentRoute in setOf(Screen.Route.DASHBOARD, Screen.Route.SETTINGS)) {
-                    BottomAppBar(
-                        actions = {
-                            NavigationBarItem(
-                                selected = currentRoute == Screen.Route.DASHBOARD,
-                                onClick = { navController.navigate(Screen.Dashboard) },
-                                icon = {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.ic_dashboard),
-                                        contentDescription = null
-                                    )
-                                },
-                                label = {
-                                    Text(
-                                        text = stringResource(id = R.string.dashboard)
-                                    )
-                                }
-                            )
-                            NavigationBarItem(
-                                selected = currentRoute == Screen.Route.SETTINGS,
-                                onClick = { navController.navigate(Screen.Settings) },
-                                icon = {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.ic_settings),
-                                        contentDescription = null
-                                    )
-                                },
-                                label = {
-                                    Text(
-                                        text = stringResource(id = R.string.settings)
-                                    )
-                                }
-                            )
-                        },
-                        floatingActionButton = {
-                            FloatingActionButton(onClick = {  }) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_add),
-                                    contentDescription = null
+        Box {
+            Scaffold(
+                bottomBar = {
+                    if (currentRoute in setOf(Screen.Route.DASHBOARD, Screen.Route.SETTINGS)) {
+                        BottomAppBar(
+                            actions = {
+                                NavigationBarItem(
+                                    selected = currentRoute == Screen.Route.DASHBOARD,
+                                    onClick = { navController.navigate(Screen.Dashboard) },
+                                    icon = {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.ic_dashboard),
+                                            contentDescription = null
+                                        )
+                                    },
+                                    label = {
+                                        Text(
+                                            text = stringResource(id = R.string.dashboard)
+                                        )
+                                    }
                                 )
+                                NavigationBarItem(
+                                    selected = currentRoute == Screen.Route.SETTINGS,
+                                    onClick = { navController.navigate(Screen.Settings) },
+                                    icon = {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.ic_settings),
+                                            contentDescription = null
+                                        )
+                                    },
+                                    label = {
+                                        Text(
+                                            text = stringResource(id = R.string.settings)
+                                        )
+                                    }
+                                )
+                            },
+                            floatingActionButton = {
+                                FloatingActionButton(onClick = {  }) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_add),
+                                        contentDescription = null
+                                    )
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
+                },
+                snackbarHost = {
+                    SnackbarHost(hostState = errorSnackbarHostState) {
+                        Snackbar(
+                            snackbarData = it,
+                            modifier = Modifier.fillMaxWidth(),
+                            containerColor = MaterialTheme.colorScheme.errorContainer,
+                            contentColor = MaterialTheme.colorScheme.onErrorContainer
+                        )
+                    }
+                    SnackbarHost(hostState = infoSnackbarHostState) {
+                        Snackbar(
+                            snackbarData = it,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
                 }
-            },
-            snackbarHost = {
-                SnackbarHost(hostState = errorSnackbarHostState) {
-                    Snackbar(
-                        snackbarData = it,
-                        modifier = Modifier.fillMaxWidth(),
-                        containerColor = MaterialTheme.colorScheme.errorContainer,
-                        contentColor = MaterialTheme.colorScheme.onErrorContainer
-                    )
-                }
-                SnackbarHost(hostState = infoSnackbarHostState) {
-                    Snackbar(
-                        snackbarData = it,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-            }
-        ) { padding ->
-            Surface(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = padding.calculateBottomPadding()),
-                color = MaterialTheme.colorScheme.background
-            ) {
-                NavHost(
-                    navController = navController,
-                    startDestination = Screen.Route.DASHBOARD
+            ) { padding ->
+                Surface(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(bottom = padding.calculateBottomPadding()),
+                    color = MaterialTheme.colorScheme.background
                 ) {
-                    composable(Screen.Route.DASHBOARD) {
-                        val viewModel = hiltViewModel<DashboardViewModel>()
-                        DashboardScreen(
-                            state = viewModel.stateFlow.collectAsState().value,
-                            onAction = viewModel::handle,
-                            openScreen = navController::navigate
-                        )
-                    }
-                    composable(Screen.Route.SETTINGS) {
-                        SettingsScreen()
-                    }
-                    composable(Screen.Route.AUTH_RECORD) {
-                        val viewModel = hiltViewModel<AuthRecordViewModel>()
-                        val authRecord = navController.getParcelable<AuthRecordParcelable>(Screen.EditAuthRecord.Key.AUTH_RECORD)
-                        viewModel.setEditableAuthRecord(authRecord)
-                        AuthRecordScreen(
-                            state = viewModel.stateFlow.collectAsState().value,
-                            onAction = viewModel::handle,
-                            navigateBack = navController::popBackStack,
-                            showError = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Error(it))) }
-                        )
-                    }
-                    composable(Screen.Route.NOTE_RECORD) {
-                        val viewModel = hiltViewModel<NoteRecordViewModel>()
-                        val noteRecord = navController.getParcelable<NoteRecordParcelable>(Screen.EditNoteRecord.Key.NOTE_RECORD)
-                        viewModel.setEditableNoteRecord(noteRecord)
-                        NoteRecordScreen(
-                            state = viewModel.stateFlow.collectAsState().value,
-                            onAction = viewModel::handle,
-                            navigateBack = navController::popBackStack,
-                            showError = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Error(it))) }
-                        )
-                    }
-                    composable(Screen.Route.CARD_RECORD) {
-                        val viewModel = hiltViewModel<CardRecordViewModel>()
-                        val cardRecord = navController.getParcelable<CardRecordParcelable>(Screen.EditCardRecord.Key.CARD_RECORD)
-                        viewModel.setEditableCardRecord(cardRecord)
-                        CardRecordScreen(
-                            state = viewModel.stateFlow.collectAsState().value,
-                            onAction = viewModel::handle,
-                            navigateBack = navController::popBackStack,
-                            showError = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Error(it))) }
-                        )
-                    }
-                    composable(Screen.Route.SHOW_AUTH_RECORD) {
-                        val viewModel = hiltViewModel<ShowAuthRecordViewModel>()
-                        val authRecord = navController.getParcelable<AuthRecordParcelable>(Screen.ShowAuthRecord.Key.AUTH_RECORD)
-                        viewModel.setAuthRecord(authRecord)
-                        ShowAuthRecordScreen(
-                            state = viewModel.stateFlow.collectAsState().value,
-                            onAction = viewModel::handle,
-                            openScreen = navController::navigate,
-                            navigateBack = navController::popBackStack,
-                            showMessage = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Info(it))) }
-                        )
-                    }
-                    composable(Screen.Route.SHOW_NOTE_RECORD) {
-                        val viewModel = hiltViewModel<ShowNoteRecordViewModel>()
-                        val noteRecord = navController.getParcelable<NoteRecordParcelable>(Screen.ShowNoteRecord.Key.NOTE_RECORD)
-                        viewModel.setNoteRecord(noteRecord)
-                        ShowNoteRecordScreen(
-                            state = viewModel.stateFlow.collectAsState().value,
-                            onAction = viewModel::handle,
-                            openScreen = navController::navigate,
-                            navigateBack = navController::popBackStack,
-                            showMessage = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Info(it))) }
-                        )
-                    }
-                    composable(Screen.Route.SHOW_CARD_RECORD) {
-                        val viewModel = hiltViewModel<ShowCardRecordViewModel>()
-                        val cardRecord = navController.getParcelable<CardRecordParcelable>(Screen.ShowCardRecord.Key.CARD_RECORD)
-                        viewModel.setCardRecord(cardRecord)
-                        ShowCardRecordScreen(
-                            state = viewModel.stateFlow.collectAsState().value,
-                            onAction = viewModel::handle,
-                            openScreen = navController::navigate,
-                            navigateBack = navController::popBackStack,
-                            showMessage = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Info(it))) }
-                        )
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screen.Route.DASHBOARD
+                    ) {
+                        composable(Screen.Route.DASHBOARD) {
+                            val viewModel = hiltViewModel<DashboardViewModel>()
+                            DashboardScreen(
+                                state = viewModel.stateFlow.collectAsState().value,
+                                onAction = viewModel::handle,
+                                openScreen = navController::navigate
+                            )
+                        }
+                        composable(Screen.Route.SETTINGS) {
+                            SettingsScreen()
+                        }
+                        composable(Screen.Route.AUTH_RECORD) {
+                            val viewModel = hiltViewModel<AuthRecordViewModel>()
+                            val authRecord = navController.getParcelable<AuthRecordParcelable>(Screen.EditAuthRecord.Key.AUTH_RECORD)
+                            viewModel.setEditableAuthRecord(authRecord)
+                            AuthRecordScreen(
+                                state = viewModel.stateFlow.collectAsState().value,
+                                onAction = viewModel::handle,
+                                navigateBack = navController::popBackStack,
+                                showError = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Error(it))) }
+                            )
+                        }
+                        composable(Screen.Route.NOTE_RECORD) {
+                            val viewModel = hiltViewModel<NoteRecordViewModel>()
+                            val noteRecord = navController.getParcelable<NoteRecordParcelable>(Screen.EditNoteRecord.Key.NOTE_RECORD)
+                            viewModel.setEditableNoteRecord(noteRecord)
+                            NoteRecordScreen(
+                                state = viewModel.stateFlow.collectAsState().value,
+                                onAction = viewModel::handle,
+                                navigateBack = navController::popBackStack,
+                                showError = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Error(it))) }
+                            )
+                        }
+                        composable(Screen.Route.CARD_RECORD) {
+                            val viewModel = hiltViewModel<CardRecordViewModel>()
+                            val cardRecord = navController.getParcelable<CardRecordParcelable>(Screen.EditCardRecord.Key.CARD_RECORD)
+                            viewModel.setEditableCardRecord(cardRecord)
+                            CardRecordScreen(
+                                state = viewModel.stateFlow.collectAsState().value,
+                                onAction = viewModel::handle,
+                                navigateBack = navController::popBackStack,
+                                showError = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Error(it))) }
+                            )
+                        }
+                        composable(Screen.Route.SHOW_AUTH_RECORD) {
+                            val viewModel = hiltViewModel<ShowAuthRecordViewModel>()
+                            val authRecord = navController.getParcelable<AuthRecordParcelable>(Screen.ShowAuthRecord.Key.AUTH_RECORD)
+                            viewModel.setAuthRecord(authRecord)
+                            ShowAuthRecordScreen(
+                                state = viewModel.stateFlow.collectAsState().value,
+                                onAction = viewModel::handle,
+                                openScreen = navController::navigate,
+                                navigateBack = navController::popBackStack,
+                                showMessage = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Info(it))) }
+                            )
+                        }
+                        composable(Screen.Route.SHOW_NOTE_RECORD) {
+                            val viewModel = hiltViewModel<ShowNoteRecordViewModel>()
+                            val noteRecord = navController.getParcelable<NoteRecordParcelable>(Screen.ShowNoteRecord.Key.NOTE_RECORD)
+                            viewModel.setNoteRecord(noteRecord)
+                            ShowNoteRecordScreen(
+                                state = viewModel.stateFlow.collectAsState().value,
+                                onAction = viewModel::handle,
+                                openScreen = navController::navigate,
+                                navigateBack = navController::popBackStack,
+                                showMessage = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Info(it))) }
+                            )
+                        }
+                        composable(Screen.Route.SHOW_CARD_RECORD) {
+                            val viewModel = hiltViewModel<ShowCardRecordViewModel>()
+                            val cardRecord = navController.getParcelable<CardRecordParcelable>(Screen.ShowCardRecord.Key.CARD_RECORD)
+                            viewModel.setCardRecord(cardRecord)
+                            ShowCardRecordScreen(
+                                state = viewModel.stateFlow.collectAsState().value,
+                                onAction = viewModel::handle,
+                                openScreen = navController::navigate,
+                                navigateBack = navController::popBackStack,
+                                showMessage = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Info(it))) }
+                            )
+                        }
                     }
                 }
             }
+            // TODO
         }
     }
 }
