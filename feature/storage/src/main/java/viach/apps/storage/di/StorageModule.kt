@@ -9,13 +9,16 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import viach.apps.encryption.repository.EncryptionRepository
+import viach.apps.storage.repository.AppSettingsRepository
 import viach.apps.storage.repository.AuthRecordRepository
 import viach.apps.storage.repository.CardRecordRepository
+import viach.apps.storage.repository.DefaultAppSettingsRepository
 import viach.apps.storage.repository.DefaultAuthRecordRepository
 import viach.apps.storage.repository.DefaultCardRecordRepository
 import viach.apps.storage.repository.DefaultNoteRecordRepository
 import viach.apps.storage.repository.NoteRecordRepository
 import viach.apps.storage.room.SecurePalDatabase
+import viach.apps.storage.room.dao.AppSettingDao
 import viach.apps.storage.room.dao.AuthRecordDao
 import viach.apps.storage.room.dao.CardRecordDao
 import viach.apps.storage.room.dao.NoteRecordDao
@@ -56,6 +59,16 @@ internal class StorageModule {
     )
 
     @Provides
+    fun provideAppSettingRepository(
+        appSettingDao: AppSettingDao,
+        encryptionRepository: EncryptionRepository
+    ): AppSettingsRepository = DefaultAppSettingsRepository(
+        appSettingDao,
+        encryptionRepository,
+        Dispatchers.IO
+    )
+
+    @Provides
     @Singleton
     fun providesSecurePalDatabase(
         @ApplicationContext
@@ -80,4 +93,9 @@ internal class StorageModule {
     fun providesNoteRecordDao(
         securePalDatabase: SecurePalDatabase
     ): NoteRecordDao = securePalDatabase.noteRecordDao
+
+    @Provides
+    fun provideAppSettingDao(
+        securePalDatabase: SecurePalDatabase
+    ): AppSettingDao = securePalDatabase.appSettingDao
 }
