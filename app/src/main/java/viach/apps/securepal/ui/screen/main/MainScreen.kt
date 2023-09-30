@@ -36,6 +36,7 @@ import viach.apps.securepal.ui.screen.dashboard.DashboardViewModel
 import viach.apps.securepal.ui.screen.noterecord.NoteRecordScreen
 import viach.apps.securepal.ui.screen.noterecord.NoteRecordViewModel
 import viach.apps.securepal.ui.screen.settings.SettingsScreen
+import viach.apps.securepal.ui.screen.settings.SettingsViewModel
 import viach.apps.securepal.ui.screen.showauthrecord.ShowAuthRecordScreen
 import viach.apps.securepal.ui.screen.showauthrecord.ShowAuthRecordViewModel
 import viach.apps.securepal.ui.screen.showcardrecord.ShowCardRecordScreen
@@ -76,7 +77,7 @@ fun MainScreen() {
         }
     }
 
-    SecurePalTheme {
+    SecurePalTheme(state.appTheme) {
         Box {
             Scaffold(
                 bottomBar = {
@@ -123,7 +124,11 @@ fun MainScreen() {
                             )
                         }
                         composable(Screen.Route.SETTINGS) {
-                            SettingsScreen()
+                            val viewModel = hiltViewModel<SettingsViewModel>()
+                            SettingsScreen(
+                                state = viewModel.stateFlow.collectAsState().value,
+                                onAction = viewModel::handle
+                            )
                         }
                         composable(Screen.Route.AUTH_RECORD) {
                             val viewModel = hiltViewModel<AuthRecordViewModel>()

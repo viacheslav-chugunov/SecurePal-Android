@@ -25,7 +25,7 @@ internal class DefaultAppSettingsRepository(
             .filter { setting ->
                 setting.name in setOf(NAME_THEME)
             }.map { setting ->
-                val encryptedSetting = setting.encrypt(encryptionRepository)
+                val encryptedSetting = setting.decrypt(encryptionRepository)
                 when (setting.name) {
                     NAME_THEME -> {
                         TypedAppSetting.AppTheme(AppTheme.valueOf(encryptedSetting.value))
@@ -36,7 +36,7 @@ internal class DefaultAppSettingsRepository(
     }
 
     override suspend fun setTheme(appTheme: AppTheme) = withContext(coroutineContext) {
-        val setting = AppSettingEntity(NAME_THEME, appTheme.name).decrypt(encryptionRepository)
+        val setting = AppSettingEntity(NAME_THEME, appTheme.name).encrypt(encryptionRepository)
         appSettingDao.set(setting)
     }
 }

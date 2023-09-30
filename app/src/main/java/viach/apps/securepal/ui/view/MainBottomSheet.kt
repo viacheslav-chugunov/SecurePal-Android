@@ -28,7 +28,7 @@ fun MainBottomSheet(
 ) {
     if (!show) return
 
-    val stateSheet = rememberModalBottomSheetState()
+    val stateSheet = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val coroutineScope = rememberCoroutineScope()
 
     ModalBottomSheet(

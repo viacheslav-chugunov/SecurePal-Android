@@ -35,4 +35,15 @@
     <string name="verification_number_copied">Verification number copied</string>
     <string name="pin_copied">Pin copied</string>
     <string name="card_number_copied">Card number copied</string>
+    <string name="app_settings">App settings</string>
+    <string name="theme">Theme</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="system">System</string>
+    <string name="dynamic_light">Dynamic light</string>
+    <string name="dynamic_dark">Dynamic dark</string>
+    <string name="dynamic_system">Dynamic system</string>
+    <string name="select_app_theme">Select app theme</string>
+    <string name="additional">Additional</string>
+    <string name="privacy_policy">Privacy policy</string>
 </resources>

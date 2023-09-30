@@ -1,7 +1,6 @@
 package viach.apps.securepal.ui.theme
 
 import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -14,6 +13,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import viach.apps.storage.model.AppTheme
 
 private val LightColorScheme = lightColorScheme(
     primary = md_theme_light_primary,
@@ -81,18 +81,19 @@ private val DarkColorScheme = darkColorScheme(
 
 @Composable
 fun SecurePalTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false,
+    appTheme: AppTheme,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+    val context = LocalContext.current
+    val isSystemDarkTheme = isSystemInDarkTheme()
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+    val colorScheme = when(appTheme) {
+        AppTheme.LIGHT -> LightColorScheme
+        AppTheme.DARK -> DarkColorScheme
+        AppTheme.SYSTEM -> if (isSystemDarkTheme) DarkColorScheme else LightColorScheme
+        AppTheme.DYNAMIC_LIGHT -> dynamicLightColorScheme(context)
+        AppTheme.DYNAMIC_DARK -> dynamicDarkColorScheme(context)
+        AppTheme.DYNAMIC_SYSTEM -> if (isSystemDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
     }
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -100,7 +101,7 @@ fun SecurePalTheme(
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.background.toArgb()
             window.navigationBarColor = colorScheme.background.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = appTheme.isLight(!isSystemDarkTheme)
         }
     }
 
