@@ -12,7 +12,7 @@ internal interface AppSettingDao {
     @Query("SELECT * FROM APP_SETTING")
     fun getAll(): Flow<List<AppSettingEntity>>
 
-    @Query("SELECT * FROM APP_SETTING ")
+    @Query("SELECT * FROM APP_SETTING WHERE NAME=:name")
     fun get(name: String): Flow<AppSettingEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
