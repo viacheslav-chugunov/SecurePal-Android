@@ -46,4 +46,7 @@
     <string name="select_app_theme">Select app theme</string>
     <string name="additional">Additional</string>
     <string name="privacy_policy">Privacy policy</string>
+    <string name="add_auth_record_description">New combination of login, email, etc. with a password to log into your account</string>
+    <string name="add_note_description">New reminder of an upcoming event, personal note, etc.</string>
+    <string name="add_card_description">New note with basic information on credit card</string>
 </resources>
