@@ -25,7 +25,7 @@ fun MainBottomAppBar(
         actions = {
             NavigationBarItem(
                 selected = currentRoute == Screen.Route.DASHBOARD,
-                onClick = onClickDashboard,
+                onClick = { if (currentRoute != Screen.Route.DASHBOARD) onClickDashboard() },
                 icon = {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_dashboard),
@@ -40,7 +40,7 @@ fun MainBottomAppBar(
             )
             NavigationBarItem(
                 selected = currentRoute == Screen.Route.SETTINGS,
-                onClick = onClickSettings,
+                onClick = { if (currentRoute != Screen.Route.SETTINGS) onClickSettings() },
                 icon = {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_settings),

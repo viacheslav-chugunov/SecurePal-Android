@@ -17,6 +17,8 @@ val privateProperties = Properties().apply {
 }
 
 val encryptionToken: String = privateProperties.getProperty("encryptionToken", "0000000000000000")
+val signingKeystorePassword: String = privateProperties.getProperty("signingKeystorePassword", "")
+val signingKeyPassword: String = privateProperties.getProperty("signingKeyPassword", "")
 
 android {
     namespace = "viach.apps.securepal"
@@ -33,36 +35,64 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "ENCRYPTION_TOKEN", "\"${encryptionToken}\"")
+    }
+    signingConfigs {
+        register("release") {
+            storeFile = file("../secure-pal-keystore.jks")
+            storePassword = signingKeystorePassword
+            keyAlias = "secure-pal-key"
+            keyPassword = signingKeyPassword
+        }
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
 
-            buildConfigField("String", "ENCRYPTION_TOKEN", "\"${encryptionToken}\"")
+            postprocessing {
+                isObfuscate = false
+                isOptimizeCode = true
+                isRemoveUnusedCode = true
+                isRemoveUnusedResources = true
+                file("proguard").listFiles()?.forEach { proguardFile(it) }
+            }
+
+            signingConfig = signingConfigs["release"]
         }
         debug {
-            buildConfigField("String", "ENCRYPTION_TOKEN", "\"${encryptionToken}\"")
+            postprocessing {
+                isObfuscate = false
+                isOptimizeCode = false
+                isRemoveUnusedCode = false
+                isRemoveUnusedResources = false
+            }
         }
     }
+
     compileOptions {
         sourceCompatibility = Dependency.CompileOptions.SOURCE_COMPATIBILITY
         targetCompatibility = Dependency.CompileOptions.TARGET_COMPATIBILITY
     }
+
     kotlinOptions {
         jvmTarget = Dependency.KotlinOptions.JVM_TARGET
     }
+
     buildFeatures {
         compose = true
         buildConfig = true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
