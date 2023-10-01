@@ -14,7 +14,7 @@ SecurePal is an app designed to be your password manager, credit card vault, and
 ```
 MIT License
 
-Copyright (c) 2022 Viacheslav Chugunov
+Copyright (c) 2023 Viacheslav Chugunov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
