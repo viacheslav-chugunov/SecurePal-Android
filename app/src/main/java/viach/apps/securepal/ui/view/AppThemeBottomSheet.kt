@@ -37,7 +37,8 @@ fun AppThemeBottomSheet(
             text = stringResource(id = R.string.select_app_theme),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(8.dp))
         AppThemeBottomSheetItem(

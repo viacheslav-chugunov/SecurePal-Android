@@ -102,8 +102,16 @@ fun SettingsScreen(
                     text = stringResource(id = R.string.privacy_policy),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(CutCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp))
                         .clickable { context.openLink("https://docs.google.com/document/d/1P2vxnY85dxue9nPfDGmUfKFuq3LKnHEhCgDtXpJ60MQ/edit") }
+                        .padding(all = 16.dp)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = stringResource(id = R.string.сheck_for_updates),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(CutCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp))
+                        .clickable { context.openLink("https://play.google.com/store/apps/details?id=viach.apps.securepal") }
                         .padding(all = 16.dp)
                 )
             }

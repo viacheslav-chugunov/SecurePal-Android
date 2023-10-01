@@ -49,4 +49,5 @@
     <string name="add_auth_record_description">New combination of login, email, etc. with a password to log into your account</string>
     <string name="add_note_description">New reminder of an upcoming event, personal note, etc.</string>
     <string name="add_card_description">New note with basic information on credit card</string>
+    <string name="сheck_for_updates">Check for updates</string>
 </resources>
