@@ -40,5 +40,7 @@ dependencies {
     androidTestImplementation(Dependency.Test.JUNIT_EXT)
     androidTestImplementation(Dependency.Test.ESPRESSO)
     implementation(Dependency.Hilt.CORE)
+    implementation(Dependency.Gson.CORE)
+
     kapt(Dependency.Hilt.KAPT)
 }

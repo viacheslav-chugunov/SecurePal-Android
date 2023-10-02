@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/autofill" />
             <option value="$PROJECT_DIR$/feature/encryption" />
+            <option value="$PROJECT_DIR$/feature/export" />
             <option value="$PROJECT_DIR$/feature/storage" />
             <option value="$PROJECT_DIR$/shared" />
           </set>

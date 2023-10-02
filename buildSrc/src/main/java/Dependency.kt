@@ -26,6 +26,8 @@ object Dependency {
         const val SHARED = ":shared"
         const val ENCRYPTION = ":feature:encryption"
         const val STORAGE = ":feature:storage"
+        const val AUTOFILL = ":feature:autofill"
+        const val EXPORT = ":feature:export"
     }
 
     object KotlinOptions {
@@ -74,5 +76,9 @@ object Dependency {
         const val CORE = "androidx.room:room-runtime:2.5.2"
         const val COROUTINES = "androidx.room:room-ktx:2.5.2"
         const val KSP = "androidx.room:room-compiler:2.5.2"
+    }
+
+    object Gson {
+        const val CORE = "com.google.code.gson:gson:2.10.1"
     }
 }
