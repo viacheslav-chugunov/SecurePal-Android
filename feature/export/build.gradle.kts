@@ -37,6 +37,7 @@ android {
 dependencies {
     implementation(project(Dependency.Project.SHARED))
     implementation(project(Dependency.Project.STORAGE))
+    implementation(project(Dependency.Project.ENCRYPTION))
 
     implementation(Dependency.Core.CORE)
     testImplementation(Dependency.Test.JUNIT)

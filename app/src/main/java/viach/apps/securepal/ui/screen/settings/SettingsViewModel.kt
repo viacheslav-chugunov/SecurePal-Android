@@ -1,9 +1,11 @@
 package viach.apps.securepal.ui.screen.settings
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import viach.apps.export.repository.ExportRepository
 import viach.apps.securepal.StateViewModel
 import viach.apps.storage.model.TypedAppSetting
 import viach.apps.storage.repository.AppSettingsRepository
@@ -11,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val appSettingsRepository: AppSettingsRepository
+    private val appSettingsRepository: AppSettingsRepository,
+    private val exportRepository: ExportRepository
 ) : StateViewModel<SettingsState>(SettingsState()) {
 
     init {
@@ -43,6 +46,11 @@ class SettingsViewModel @Inject constructor(
             }
             is SettingsAction.ShowAppThemeBottomSheet -> {
                 state = state.copy(showAppThemeBottomSheet = action.show)
+            }
+            SettingsAction.Export -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    exportRepository.export()
+                }
             }
         }
     }

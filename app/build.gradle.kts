@@ -103,6 +103,7 @@ android {
 dependencies {
     implementation(project(Dependency.Project.SHARED))
     implementation(project(Dependency.Project.STORAGE))
+    implementation(project(Dependency.Project.EXPORT))
 
     implementation(Dependency.Core.CORE)
     implementation(Dependency.Core.LIFECYCLE)

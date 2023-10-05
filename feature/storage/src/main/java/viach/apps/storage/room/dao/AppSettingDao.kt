@@ -10,6 +10,9 @@ import viach.apps.storage.room.entity.AppSettingEntity
 @Dao
 internal interface AppSettingDao {
     @Query("SELECT * FROM APP_SETTING")
+    suspend fun getAllCurrent(): List<AppSettingEntity>
+
+    @Query("SELECT * FROM APP_SETTING")
     fun getAll(): Flow<List<AppSettingEntity>>
 
     @Query("SELECT * FROM APP_SETTING WHERE NAME=:name")
@@ -17,4 +20,7 @@ internal interface AppSettingDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun set(appSettingEntity: AppSettingEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun setAll(appSettingEntities: List<AppSettingEntity>)
 }

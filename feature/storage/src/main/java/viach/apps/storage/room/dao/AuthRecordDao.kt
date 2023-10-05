@@ -13,6 +13,9 @@ import viach.apps.storage.room.entity.CardRecordEntity
 @Dao
 internal interface AuthRecordDao {
     @Query("SELECT * FROM AUTH_RECORD ORDER BY CREATED_AT DESC")
+    suspend fun getAllCurrent(): List<AuthRecordEntity>
+
+    @Query("SELECT * FROM AUTH_RECORD ORDER BY CREATED_AT DESC")
     fun getAll(): Flow<List<AuthRecordEntity>>
 
     @Query("SELECT * FROM AUTH_RECORD WHERE CREATED_AT=:createdAt LIMIT 1")
@@ -26,4 +29,7 @@ internal interface AuthRecordDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(record: AuthRecordEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addAll(records: List<AuthRecordEntity>)
 }

@@ -13,4 +13,9 @@ internal class DefaultTimeRepository(
         return formatter.format(Date(timestamp))
     }
 
+    override fun createCurrentDate(pattern: String): String {
+        val formatter = SimpleDateFormat(pattern, locale)
+        return formatter.format(Date(System.currentTimeMillis()))
+    }
+
 }

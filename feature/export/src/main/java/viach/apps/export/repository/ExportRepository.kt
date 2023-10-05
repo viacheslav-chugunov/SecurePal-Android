@@ -1,5 +1,5 @@
 package viach.apps.export.repository
 
 interface ExportRepository {
-    suspend fun export()
+    suspend fun export(): Boolean
 }

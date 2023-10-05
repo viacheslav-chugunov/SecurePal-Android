@@ -11,6 +11,9 @@ import viach.apps.storage.room.entity.CardRecordEntity
 
 @Dao
 internal interface CardRecordDao {
+    @Query("SELECT * FROM CARD_RECORD")
+    suspend fun getAllCurrent(): List<CardRecordEntity>
+
     @Query("SELECT * FROM CARD_RECORD ORDER BY CREATED_AT DESC")
     fun getAll(): Flow<List<CardRecordEntity>>
 
@@ -25,4 +28,7 @@ internal interface CardRecordDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(record: CardRecordEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addAll(records: List<CardRecordEntity>)
 }

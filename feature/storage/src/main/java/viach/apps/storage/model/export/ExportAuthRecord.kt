@@ -12,6 +12,15 @@ internal class ExportAuthRecord(
     private val updatedAt: Long?
 ) {
 
+    constructor(authRecord: AuthRecord) : this(
+        authRecord.auth,
+        authRecord.password,
+        authRecord.title,
+        authRecord.note,
+        authRecord.createdAt,
+        authRecord.updatedAt
+    )
+
     fun toEntity(): AuthRecordEntity = AuthRecordEntity(
         auth ?: "",
         password ?: "",

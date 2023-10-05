@@ -12,6 +12,9 @@ import viach.apps.storage.room.entity.NoteRecordEntity
 
 @Dao
 internal interface NoteRecordDao {
+    @Query("SELECT * FROM NOTE_RECORD")
+    suspend fun getAllCurrent(): List<NoteRecordEntity>
+
     @Query("SELECT * FROM NOTE_RECORD ORDER BY CREATED_AT DESC")
     fun getAll(): Flow<List<NoteRecordEntity>>
 
@@ -26,4 +29,7 @@ internal interface NoteRecordDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(record: NoteRecordEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addAll(records: List<NoteRecordEntity>)
 }
