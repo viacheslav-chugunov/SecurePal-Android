@@ -1,8 +1,10 @@
 package viach.apps.export.di
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import viach.apps.encryption.repository.EncryptionRepository
@@ -17,10 +19,13 @@ internal class ExportModule {
 
     @Provides
     fun providesExportRepository(
+        @ApplicationContext
+        context: Context,
         exportStorageRepository: ExportStorageRepository,
         encryptionRepository: EncryptionRepository,
         timeRepository: TimeRepository
     ): ExportRepository = DefaultExportRepository(
+        context,
         exportStorageRepository,
         encryptionRepository,
         timeRepository,

@@ -127,7 +127,9 @@ fun MainScreen() {
                             val viewModel = hiltViewModel<SettingsViewModel>()
                             SettingsScreen(
                                 state = viewModel.stateFlow.collectAsState().value,
-                                onAction = viewModel::handle
+                                onAction = viewModel::handle,
+                                showMessage = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Info(it))) },
+                                showError = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Error(it))) }
                             )
                         }
                         composable(Screen.Route.AUTH_RECORD) {

@@ -1,5 +1,9 @@
 package viach.apps.securepal.ui.screen.settings
 
+import android.net.Uri
+import android.provider.MediaStore.Downloads
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -16,12 +20,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toFile
 import viach.apps.securepal.R
 import viach.apps.securepal.extension.openLink
 import viach.apps.securepal.ui.view.AppThemeBottomSheet
@@ -30,9 +36,30 @@ import viach.apps.storage.model.AppTheme
 @Composable
 fun SettingsScreen(
     state: SettingsState,
-    onAction: (SettingsAction) -> Unit
+    onAction: (SettingsAction) -> Unit,
+    showMessage: (String) -> Unit,
+    showError: (String) -> Unit
 ) {
+    val documentPickerLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        if (uri != null) {
+            onAction(SettingsAction.Import(uri))
+        }
+    }
     val context = LocalContext.current
+
+    LaunchedEffect(state.messageRes) {
+        if (state.messageRes != 0) {
+            showMessage(context.getString(state.messageRes))
+            onAction(SettingsAction.HandleMessage)
+        }
+    }
+
+    LaunchedEffect(state.errorMessageRes) {
+        if (state.errorMessageRes != 0) {
+            showError(context.getString(state.errorMessageRes))
+            onAction(SettingsAction.HandleErrorMessage)
+        }
+    }
 
     Box {
         Column(
@@ -92,7 +119,42 @@ fun SettingsScreen(
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = stringResource(id = R.string.additional),
+                    text = stringResource(id = R.string.storage),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.titleLarge
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = stringResource(id = R.string.export_app_data),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(CutCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp))
+                        .clickable { onAction(SettingsAction.Export) }
+                        .padding(all = 16.dp)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = stringResource(id = R.string.import_app_data),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(CutCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp))
+                        .clickable { documentPickerLauncher.launch("text/plain") }
+                        .padding(all = 16.dp)
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.tertiaryContainer,
+                        shape = CutCornerShape(16.dp)
+                    )
+            ) {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = stringResource(id = R.string.references),
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleLarge
@@ -112,15 +174,6 @@ fun SettingsScreen(
                         .fillMaxWidth()
                         .clip(CutCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp))
                         .clickable { context.openLink("https://play.google.com/store/apps/details?id=viach.apps.securepal") }
-                        .padding(all = 16.dp)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = stringResource(id = R.string.export_app_data),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(CutCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp))
-                        .clickable { onAction(SettingsAction.Export) }
                         .padding(all = 16.dp)
                 )
             }

@@ -44,11 +44,15 @@
     <string name="dynamic_dark">Dynamic dark</string>
     <string name="dynamic_system">Dynamic system</string>
     <string name="select_app_theme">Select app theme</string>
-    <string name="additional">Additional</string>
+    <string name="references">References</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="add_auth_record_description">New combination of login, email, etc. with a password to log into your account</string>
     <string name="add_note_description">New reminder of an upcoming event, personal note, etc.</string>
     <string name="add_card_description">New note with basic information on credit card</string>
     <string name="check_for_updates">Check for updates</string>
     <string name="export_app_data">Export app data</string>
+    <string name="import_app_data">Import app data</string>
+    <string name="storage">Storage</string>
+    <string name="export_file_successfully_saved">Export file successfully saved into downloads folder</string>
+    <string name="export_file_saving_error">Export file saving error</string>
 </resources>
