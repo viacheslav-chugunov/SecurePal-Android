@@ -33,6 +33,8 @@ import viach.apps.securepal.ui.screen.cardrecord.CardRecordScreen
 import viach.apps.securepal.ui.screen.cardrecord.CardRecordViewModel
 import viach.apps.securepal.ui.screen.dashboard.DashboardScreen
 import viach.apps.securepal.ui.screen.dashboard.DashboardViewModel
+import viach.apps.securepal.ui.screen.lock.LockScreen
+import viach.apps.securepal.ui.screen.lock.LockViewModel
 import viach.apps.securepal.ui.screen.noterecord.NoteRecordScreen
 import viach.apps.securepal.ui.screen.noterecord.NoteRecordViewModel
 import viach.apps.securepal.ui.screen.settings.SettingsScreen
@@ -113,8 +115,17 @@ fun MainScreen() {
                 ) {
                     NavHost(
                         navController = navController,
-                        startDestination = Screen.Route.DASHBOARD
+                        startDestination = Screen.Route.LOCK
                     ) {
+                        composable(Screen.Route.LOCK) {
+                            val viewModel = hiltViewModel<LockViewModel>()
+                            LockScreen(
+                                state = viewModel.stateFlow.collectAsState().value,
+                                onAction = viewModel::handle,
+                                openScreen = navController::navigate,
+                                showError = { mainViewModel.handle(MainAction.ShowSnackbar(SnackbarMessage.Error(it))) }
+                            )
+                        }
                         composable(Screen.Route.DASHBOARD) {
                             val viewModel = hiltViewModel<DashboardViewModel>()
                             DashboardScreen(

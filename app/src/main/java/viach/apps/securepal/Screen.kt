@@ -5,6 +5,7 @@ import viach.apps.storage.model.CardRecord
 import viach.apps.storage.model.NoteRecord
 
 sealed class Screen(val route: String, val newTask: Boolean = false) {
+    object Lock : Screen(Route.LOCK)
     object Dashboard : Screen(Route.DASHBOARD, true)
     object Settings : Screen(Route.SETTINGS)
     object NewAuthRecord : Screen(Route.AUTH_RECORD)
@@ -43,6 +44,7 @@ sealed class Screen(val route: String, val newTask: Boolean = false) {
 
 
     object Route {
+        const val LOCK = "lock"
         const val DASHBOARD = "dashboard"
         const val SETTINGS = "settings"
         const val AUTH_RECORD = "auth-record"

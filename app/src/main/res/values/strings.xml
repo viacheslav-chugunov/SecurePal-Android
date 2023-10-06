@@ -57,4 +57,6 @@
     <string name="export_file_saving_error">Export file saving error</string>
     <string name="app_data_successfully_imported">App data successfully imported</string>
     <string name="import_file_error">Import file error</string>
+    <string name="enter_pin_to_unlock_securepal">Enter pin to unlock SecurePal</string>
+    <string name="enter_password_to_unlock_securepal">Enter password to unlock SecurePal</string>
 </resources>
