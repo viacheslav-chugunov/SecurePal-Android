@@ -1,7 +1,5 @@
 package viach.apps.securepal.ui.screen.settings
 
-import android.util.Log
-import androidx.core.net.toFile
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -61,7 +59,12 @@ class SettingsViewModel @Inject constructor(
             }
             is SettingsAction.Import -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    exportRepository.import(action.uri)
+                    val success = exportRepository.import(action.uri)
+                    state = if (success) {
+                        state.copy(messageRes = R.string.app_data_successfully_imported)
+                    } else {
+                        state.copy(errorMessageRes = R.string.import_file_error)
+                    }
                 }
             }
             SettingsAction.HandleErrorMessage -> {

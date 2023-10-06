@@ -55,4 +55,6 @@
     <string name="storage">Storage</string>
     <string name="export_file_successfully_saved">Export file successfully saved into downloads folder</string>
     <string name="export_file_saving_error">Export file saving error</string>
+    <string name="app_data_successfully_imported">App data successfully imported</string>
+    <string name="import_file_error">Import file error</string>
 </resources>

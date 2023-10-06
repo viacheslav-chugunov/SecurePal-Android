@@ -31,10 +31,8 @@ internal class DefaultExportRepository(
             val exportFile = File(downloadsFile, "secure-pal-export-$exportDate.txt")
             exportFile.appendText(encryptedAppDataJson)
             exportFile.createNewFile()
-            Log.d("MyTest", "folder created")
             true
         } catch (e: Exception) {
-            Log.e("MyTest", e.stackTraceToString())
             false
         }
     }
