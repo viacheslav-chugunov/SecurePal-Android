@@ -41,7 +41,7 @@ fun AppThemeBottomSheet(
             color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(8.dp))
-        AppThemeBottomSheetItem(
+        BottomSheetItem(
             titleRes = R.string.light,
             isSelected = selectedAppTheme == AppTheme.LIGHT,
             onClick = {
@@ -50,7 +50,7 @@ fun AppThemeBottomSheet(
                 onAppThemeSelected(AppTheme.LIGHT)
             }
         )
-        AppThemeBottomSheetItem(
+        BottomSheetItem(
             titleRes = R.string.dark,
             isSelected = selectedAppTheme == AppTheme.DARK,
             onClick = {
@@ -60,7 +60,7 @@ fun AppThemeBottomSheet(
             }
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            AppThemeBottomSheetItem(
+            BottomSheetItem(
                 titleRes = R.string.system,
                 isSelected = selectedAppTheme == AppTheme.SYSTEM,
                 onClick = {
@@ -71,7 +71,7 @@ fun AppThemeBottomSheet(
             )
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            AppThemeBottomSheetItem(
+            BottomSheetItem(
                 titleRes = R.string.dynamic_light,
                 isSelected = selectedAppTheme == AppTheme.DYNAMIC_LIGHT,
                 onClick = {
@@ -80,7 +80,7 @@ fun AppThemeBottomSheet(
                     onAppThemeSelected(AppTheme.DYNAMIC_LIGHT)
                 }
             )
-            AppThemeBottomSheetItem(
+            BottomSheetItem(
                 titleRes = R.string.dynamic_dark,
                 isSelected = selectedAppTheme == AppTheme.DYNAMIC_DARK,
                 onClick = {
@@ -89,7 +89,7 @@ fun AppThemeBottomSheet(
                     onAppThemeSelected(AppTheme.DYNAMIC_DARK)
                 }
             )
-            AppThemeBottomSheetItem(
+            BottomSheetItem(
                 titleRes = R.string.dynamic_system,
                 isSelected = selectedAppTheme == AppTheme.DYNAMIC_SYSTEM,
                 onClick = {

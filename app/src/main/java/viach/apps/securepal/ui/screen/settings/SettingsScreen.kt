@@ -1,14 +1,11 @@
 package viach.apps.securepal.ui.screen.settings
 
-import android.net.Uri
-import android.provider.MediaStore.Downloads
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,11 +24,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toFile
 import viach.apps.securepal.R
 import viach.apps.securepal.extension.openLink
 import viach.apps.securepal.ui.view.AppThemeBottomSheet
+import viach.apps.securepal.ui.view.LockTypeBottomSheet
 import viach.apps.storage.model.AppTheme
+import viach.apps.storage.model.Lock
 
 @Composable
 fun SettingsScreen(
@@ -104,6 +102,27 @@ fun SettingsScreen(
                             AppTheme.DYNAMIC_LIGHT -> R.string.dynamic_light
                             AppTheme.DYNAMIC_DARK -> R.string.dynamic_dark
                             AppTheme.DYNAMIC_SYSTEM -> R.string.dynamic_system
+                        })
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(CutCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp))
+                        .clickable { onAction(SettingsAction.ShowAppThemeBottomSheet(true)) }
+                        .padding(all = 16.dp)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.lock),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = stringResource(id = when (state.lockType) {
+                            Lock.Type.EMPTY -> R.string.disabled
+                            Lock.Type.PIN -> R.string.pin
+                            Lock.Type.PASSWORD -> R.string.password
                         })
                     )
                 }
@@ -183,6 +202,12 @@ fun SettingsScreen(
             selectedAppTheme = state.appTheme,
             onDismiss = { onAction(SettingsAction.ShowAppThemeBottomSheet(false)) },
             onAppThemeSelected = { onAction(SettingsAction.SetAppTheme(it)) }
+        )
+        LockTypeBottomSheet(
+            show = state.showLockTypeBottomSheet,
+            selectedType = state.lockType,
+            onDismiss = { onAction(SettingsAction.ShowLockTypeBottomSheet(false)) },
+            onLockTypeSelected = { onAction(SettingsAction.SetLockType(it)) }
         )
     }
 

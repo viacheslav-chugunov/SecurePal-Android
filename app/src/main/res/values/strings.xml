@@ -59,4 +59,13 @@
     <string name="import_file_error">Import file error</string>
     <string name="enter_pin_to_unlock_securepal">Enter pin to unlock SecurePal</string>
     <string name="enter_password_to_unlock_securepal">Enter password to unlock SecurePal</string>
+    <string name="invalid_pin">Invalid pin</string>
+    <string name="invalid_password">Invalid password</string>
+    <string name="lock">Lock</string>
+    <string name="disabled">Disabled</string>
+    <string name="select_lock_type">Select lock type</string>
+    <string name="pin_must_not_be_empty">Pin must not be empty</string>
+    <string name="password_must_not_be_empty">Password must not be empty</string>
+    <string name="pin_mismatch">Pin mismatch</string>
+    <string name="password_mismatch">Password mismatch</string>
 </resources>
