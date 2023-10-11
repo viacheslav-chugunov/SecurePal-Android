@@ -31,6 +31,7 @@ class MainViewModel @Inject constructor(
                         is TypedAppSetting.AppTheme -> {
                             state = state.copy(appTheme = typedSetting.appTheme)
                         }
+                        else -> {}
                     }
                 }
             }

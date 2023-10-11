@@ -28,6 +28,7 @@ object Dependency {
         const val STORAGE = ":feature:storage"
         const val AUTOFILL = ":feature:autofill"
         const val EXPORT = ":feature:export"
+        const val LOCK = ":feature:lock"
     }
 
     object KotlinOptions {
